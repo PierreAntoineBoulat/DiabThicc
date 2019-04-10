@@ -10,6 +10,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import java.lang.reflect.Field;
@@ -24,7 +25,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         bottomNavigationView = findViewById(R.id.navigationViewHome);
-        disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -32,52 +35,33 @@ public class HomeActivity extends AppCompatActivity {
                         Intent intent;
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                intent = new Intent(HomeActivity.this, HomeActivity.class);
                                 //intent.putExtra("sum", player);
                                 startActivity(intent);
                                 break;
 
                             case R.id.navigation_today:
-                                intent = new Intent(getApplicationContext(), TodayActivity.class);
+                                intent = new Intent(HomeActivity.this, TodayActivity.class);
                                 //intent.putExtra("sum", player);
                                 startActivity(intent);
                                 break;
 
                             case R.id.navigation_stats:
-                                intent = new Intent(getApplicationContext(), StatsActivity.class);
+                                intent = new Intent(HomeActivity.this, StatsActivity.class);
                                 //intent.putExtra("sum", player);
                                 startActivity(intent);
                                 break;
 
                             case R.id.navigation_share:
-                                intent = new Intent(getApplicationContext(), ShareActivity.class);
+                                intent = new Intent(HomeActivity.this, ShareActivity.class);
                                 //intent.putExtra("sum", player);
                                 startActivity(intent);
                                 break;
+
                         }
                         return true;
                     }
                 });
     }
 
-    @SuppressLint("RestrictedApi")
-    private void disableShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
-            }
-        } catch (NoSuchFieldException e) {
-            Log.e("BNVHelper", "Unable to get shift mode field", e);
-        } catch (IllegalAccessException e) {
-            Log.e("BNVHelper", "Unable to change value of shift mode", e);
-        }
-    }
 }
