@@ -14,5 +14,4 @@ public class MainActivity extends AppCompatActivity {
         //mIntent.putExtra("sum", "0");
         startActivity(mIntent);
     }
-
 }
