@@ -8,68 +8,97 @@
     android:background="@color/black">
 
     <TextView
+        android:id="@+id/lblRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:text="Page de création de compte"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/lblDiab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/diab_thicc"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/lblRegister" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        style="@style/loginText_style"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="50dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblDiab" />
 
     <EditText
         android:id="@+id/editTextUser"
         style="@style/loginText_style"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:hint="Nom utilisateur"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDiab" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <EditText
         android:id="@+id/editTextPWD"
         style="@style/loginText_style"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
-        android:inputType="textPassword"
         android:hint="********"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextUser" />
 
 
-    <Button
-        android:id="@+id/btnLogin"
-        style="@style/loginButton_style"
+    <EditText
+        android:id="@+id/editTextPWD2"
+        style="@style/loginText_style"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="50dp"
-        android:text="connexion"
-        android:onClick="openHome"
+        android:hint="********"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPWD" />
 
-    <TextView
-        android:id="@+id/textViewOublie"
-        style="@style/text_style"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:text="Mot de passe oublié?"
+    <Button
+        android:id="@+id/btnRegister"
+        style="@style/loginButton_style"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="50dp"
+        android:onClick="openHome"
+        android:text="SUIVANT"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPWD2" />
 
 
 </android.support.constraint.ConstraintLayout>

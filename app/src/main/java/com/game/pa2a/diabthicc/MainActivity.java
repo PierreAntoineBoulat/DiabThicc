@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent mIntent = new Intent(MainActivity.this, HomeActivity.class);
+        Intent mIntent = new Intent(MainActivity.this, WelcomActivity.class);
         //mIntent.putExtra("sum", "0");
         startActivity(mIntent);
     }
