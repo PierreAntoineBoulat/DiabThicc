@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-public class RegisterActivity extends AppCompatActivity {
+public class Register2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_2);
     }
 
-    public void openRegister2(View view) {
-        Intent intent = new Intent(this, Register2Activity.class);
+    public void openHome(View view) {
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.nothing);
+        overridePendingTransition(R.anim.slide_in_down, R.anim.nothing);
     }
 }
