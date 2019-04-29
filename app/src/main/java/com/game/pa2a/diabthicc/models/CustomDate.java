@@ -24,6 +24,14 @@ public class CustomDate implements Comparable<CustomDate> {
         minutes = dateTime.get(Calendar.MINUTE);
     }
 
+    public CustomDate(GregorianCalendar dateTime){
+        year = dateTime.get(Calendar.YEAR);
+        month = dateTime.get(Calendar.MONTH)+1;
+        day = dateTime.get(Calendar.DAY_OF_MONTH);
+        hours = dateTime.get(Calendar.HOUR_OF_DAY);
+        minutes = dateTime.get(Calendar.MINUTE);
+    }
+
     public String dayFormat(){
         return ""+(day < 10 ? "0"+day : day) + "/" + (month < 10 ? "0"+month : month) + "/" + year;
     }
