@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.game.pa2a.diabthicc">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +23,7 @@
         <activity android:name=".ShareActivity" />
         <activity android:name=".StatsActivity" />
         <activity android:name=".TodayActivity" />
+        <activity android:name=".CameraActivity"/>
     </application>
 
 </manifest>
