@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
                         }
                         return true;
                     }
-                });
+                }); // TODO Factoriser le code dans un fragment et éviter d'avoir tout en copié-collé
 
         PieChart pieChart = findViewById(R.id.pieChart);
         pieChart.setUsePercentValues(true);
