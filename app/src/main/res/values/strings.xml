@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Diab&amp;Thicc</string>
+    <string name="diab_thicc"><![CDATA[Diab&Thicc]]></string>
+    <string name="dejaDiab_thicc">Déjà inscrit(e) sur <![CDATA[Diab&Thicc]]> ?</string>
 </resources>
