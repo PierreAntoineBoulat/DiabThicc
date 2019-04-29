@@ -1,28 +1,27 @@
 package com.game.pa2a.diabthicc;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class ShareActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+    private ArrayList<String> mProfiles = new ArrayList<>();
+    private ArrayList<String> mMeals = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-
         bottomNavigationView = findViewById(R.id.navigationViewShare);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(3);
@@ -61,26 +60,43 @@ public class ShareActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        initData();
     }
 
-    @SuppressLint("RestrictedApi")
-    private void disableShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(3);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShifting(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
-            }
-        } catch (NoSuchFieldException e) {
-            Log.e("BNVHelper", "Unable to get shift mode field", e);
-        } catch (IllegalAccessException e) {
-            Log.e("BNVHelper", "Unable to change value of shift mode", e);
-        }
+    private void initData() {
+        mProfiles.add("John McBiceps");
+        mProfiles.add("Jean Phillipe");
+        mProfiles.add("Florian Vraicasse");
+        mProfiles.add("Aha Sku");
+        mProfiles.add("Memory Zeh");
+        mProfiles.add("Koor Advanced");
+        mProfiles.add("Penny Uherelle");
+        mProfiles.add("Editor Wise");
+
+        mMeals.add("Poulet curry");
+        mMeals.add("Risotto cumin");
+        mMeals.add("Hachi Parmentier");
+        mMeals.add("Poulet paprika");
+        mMeals.add("Salade de tomates");
+        mMeals.add("Boeuf Bourguignon");
+        mMeals.add("Porc au caramel");
+        mMeals.add("Pates carbonara");
+
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+        LinearLayoutManager layoutManagerProfile = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerViewProfile = findViewById(R.id.recyclerViewProfile);
+        recyclerViewProfile.setLayoutManager(layoutManagerProfile);
+        RecyclerViewAdapter recyclerViewAdapterProfile = new RecyclerViewAdapter(this, mProfiles);
+        recyclerViewProfile.setAdapter(recyclerViewAdapterProfile);
+
+        LinearLayoutManager layoutManagerMeal = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerViewMeal = findViewById(R.id.recyclerViewMeal);
+        recyclerViewMeal.setLayoutManager(layoutManagerMeal);
+        RecyclerViewAdapterMeal recyclerViewAdapterMeal = new RecyclerViewAdapterMeal(this, mMeals);
+        recyclerViewMeal.setAdapter(recyclerViewAdapterMeal);
     }
 }
