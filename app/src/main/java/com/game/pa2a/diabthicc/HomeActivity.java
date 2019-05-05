@@ -13,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.game.pa2a.diabthicc.services.NotificationService;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -94,9 +96,15 @@ public class HomeActivity extends AppCompatActivity {
         d.setText("");
         pieChart.setDescription(d);
 
-        pieChart.setEntryLabelColor(Color.BLACK);
-        pieChart.setEntryLabelTextSize(10f);
+        pieChart.setDrawEntryLabels(false);
 
+        Log.d("HomeActivity","Démarrage du service...");
+
+
+        Intent i = new Intent(HomeActivity.this, NotificationService.class);
+        // i.putExtra("ACTIVE_PROFILE", active_profile); TODO: Passer le profile (need profile implements Serializable)
+
+        startService(i);
     }
 
 }
