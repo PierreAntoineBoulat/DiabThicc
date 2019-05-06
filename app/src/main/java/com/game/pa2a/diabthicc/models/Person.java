@@ -1,12 +1,13 @@
 package com.game.pa2a.diabthicc.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Person class, where the user's personal information are stored.
  */
 
-public class Person {
+public class Person implements Serializable {
 
     String name, firstName;
     String image, icon;

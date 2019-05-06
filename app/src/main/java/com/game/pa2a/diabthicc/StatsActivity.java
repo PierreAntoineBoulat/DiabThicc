@@ -12,11 +12,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.game.pa2a.diabthicc.models.Meal;
+import com.game.pa2a.diabthicc.models.Person;
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class StatsActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+    private ArrayList<Meal> lMeals;
+    private ArrayList<Person> lProfiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,40 +33,26 @@ public class StatsActivity extends AppCompatActivity {
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
+
+        ArrayList<Meal> meals;
+
+        if( (meals = (ArrayList<Meal>)getIntent().getSerializableExtra("meals")) != null)
+        {
+            this.lMeals = meals;
+            Log.d("Stats","OKMEALS");
+        }
+
+        ArrayList<Person> profiles;
+
+        if( (profiles = (ArrayList<Person>)getIntent().getSerializableExtra("profiles")) != null)
+        {
+            this.lProfiles = profiles;
+            Log.d("Stats","OKPROFILES");
+        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Intent intent;
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                intent = new Intent(StatsActivity.this, HomeActivity.class);
-                                //intent.putExtra("sum", player);
-                                startActivity(intent);
-                                break;
-
-                            case R.id.navigation_today:
-                                intent = new Intent(StatsActivity.this, TodayActivity.class);
-                                //intent.putExtra("sum", player);
-                                startActivity(intent);
-                                break;
-
-                            case R.id.navigation_stats:
-                                intent = new Intent(StatsActivity.this, StatsActivity.class);
-                                //intent.putExtra("sum", player);
-                                startActivity(intent);
-                                break;
-
-                            case R.id.navigation_share:
-                                intent = new Intent(StatsActivity.this, ShareActivity.class);
-                                //intent.putExtra("sum", player);
-                                startActivity(intent);
-                                break;
-
-                        }
-                        return true;
-                    }
-                });
+                new BottomNavListener(this, lMeals, lProfiles)
+        );
     }
 
 }

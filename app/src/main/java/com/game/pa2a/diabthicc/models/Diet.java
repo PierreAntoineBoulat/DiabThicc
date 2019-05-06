@@ -1,6 +1,8 @@
 package com.game.pa2a.diabthicc.models;
 
-public class Diet {
+import java.io.Serializable;
+
+public class Diet implements Serializable {
 
     private int proteinIntake = 0;
     private int fatIntake = 0;

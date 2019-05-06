@@ -1,5 +1,6 @@
 package com.game.pa2a.diabthicc.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * A meal is composed of one or multiple ingredients. It is to be consumed on a known date, the list of aliments can be updated and
  */
-public class Meal {
+public class Meal implements Serializable {
 
     String name;
     String image, icon;

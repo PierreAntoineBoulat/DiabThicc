@@ -1,10 +1,11 @@
 package com.game.pa2a.diabthicc.models;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 
-public class CustomDate implements Comparable<CustomDate> {
+public class CustomDate implements Comparable<CustomDate>, Serializable {
     int year, month, day, hours, minutes;
 
     public CustomDate(int year, int month, int day, int hours, int minutes) {

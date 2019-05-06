@@ -1,9 +1,10 @@
 package com.game.pa2a.diabthicc.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MealsDaily {
+public class MealsDaily implements Serializable {
 
     List<Meal> meals;
 
