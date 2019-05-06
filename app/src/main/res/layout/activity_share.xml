@@ -13,63 +13,80 @@
         tools:layout_editor_absoluteY="0dp"
         android:layout_marginBottom="56dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_margin="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="start|top"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:text="Profiles : " />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerViewProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </android.support.v7.widget.RecyclerView>
-
-            </LinearLayout>
+                android:src="@drawable/ic_stat_name"
+                android:background="@color/colorAccent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="30dp"
+                android:layout_margin="20dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:text="Repas : " />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerViewMeal"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="30dp"
+                    android:orientation="vertical">
 
-                </android.support.v7.widget.RecyclerView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/colorSecondaryDark"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        android:text="Profiles : " />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/colorSecondaryDark"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:text="Repas : " />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewMeal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
+
 
     </ScrollView>
 
