@@ -74,6 +74,7 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
         );
         viewHolder.image.setImageResource(resId);
         viewHolder.name.setText(item.getName());
+        viewHolder.type.setText(item.getType());
         viewHolder.layoutMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,12 +102,14 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
     public class ViewHolderMeal extends RecyclerView.ViewHolder{
         ImageView image;
         TextView name;
+        TextView type;
         LinearLayout layoutMeal;
 
         public ViewHolderMeal (View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageMeal);
             name = itemView.findViewById(R.id.nameMeal);
+            type = itemView.findViewById(R.id.typeMeal);
             layoutMeal = itemView.findViewById(R.id.layoutMeal);
         }
 

@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@color/colorPrimaryLight"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
         <ImageView
@@ -42,7 +42,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
+            android:background="@color/colorSecondaryLight"
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -57,6 +57,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Repas"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
 
                 <TextView
@@ -81,6 +83,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Followers"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
 
                 <TextView
@@ -105,6 +109,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Following"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
 
                 <TextView

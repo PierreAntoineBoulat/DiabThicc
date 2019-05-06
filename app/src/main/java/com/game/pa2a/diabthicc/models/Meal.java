@@ -12,6 +12,8 @@ public class Meal {
     String name;
     String image, icon;
 
+    String type;
+
     private List<Aliment> aliments;
 
     private Diet mealDiet;
@@ -26,13 +28,26 @@ public class Meal {
         this.consommationDate = consommationDate;
     }
 
-    public Meal(String name, CustomDate consommationDate, String image, String icon) {
+    public Meal(String name, CustomDate consommationDate, String type) {
         this.name = name;
-        this.image = image;
-        this.icon = icon;
+        this.type = type;
         this.aliments = new ArrayList<>();
         this.mealDiet = new Diet();
         this.consommationDate = consommationDate;
+    }
+
+    public Meal(String name, CustomDate consommationDate, String type, String image, String icon) {
+        this.name = name;
+        this.image = image;
+        this.icon = icon;
+        this.type = type;
+        this.aliments = new ArrayList<>();
+        this.mealDiet = new Diet();
+        this.consommationDate = consommationDate;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setImage(String image) {

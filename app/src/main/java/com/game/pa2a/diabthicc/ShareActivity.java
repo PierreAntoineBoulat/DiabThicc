@@ -74,25 +74,8 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mProfiles.add("John McBiceps");
-        mProfiles.add("Jean Phillipe");
-        mProfiles.add("Florian Vraicasse");
-        mProfiles.add("Aha Sku");
-        mProfiles.add("Memory Zeh");
-        mProfiles.add("Koor Advanced");
-        mProfiles.add("Penny Uherelle");
-        mProfiles.add("Editor Wise");
 
-        mMeals.add("Poulet Curry");
-        mMeals.add("Risotto Champignons");
-        mMeals.add("Hachis Parmentier");
-        mMeals.add("Poulet Paprika");
-        mMeals.add("Salade Tomates Mozza");
-        mMeals.add("Boeuf Bourguignon");
-        mMeals.add("Rôti de Porc à la Patate Douce");
-        mMeals.add("Pates Carbonara");
-
-        /* ----------------MEALS----------------- */
+        /* ----------------PROFILS----------------- */
 
         lProfiles.addAll(Arrays.asList(
                 new Person("McBiceps", "John", "Sportif Confirmé", "mc_biceps", "mc_biceps_round"),
@@ -125,61 +108,61 @@ public class ShareActivity extends AppCompatActivity {
 
         /* ----------------REPAS---------------- */
 
-        Meal rpc = new Meal("Riz Poulet Curry", new CustomDate());
+        Meal rpc = new Meal("Riz Poulet Curry", new CustomDate(),"Déjeuner");
         rpc.addAliment(riz);
         rpc.addAliment(poulet);
         rpc.addAliment(creme);
         rpc.setImage("poulet_curry");
         rpc.setIcon("poulet_curry_round");
 
-        Meal risotto = new Meal("Risotto Champignons", new CustomDate());
+        Meal risotto = new Meal("Risotto Champignons", new CustomDate(),"Déjeuner");
         risotto.addAliment(riz);
         risotto.addAliment(creme);
         risotto.addAliment(champignons);
         risotto.setImage("risotto_champignon");
         risotto.setIcon("risotto_champignon_round");
 
-        Meal hachis = new Meal("Hachis Parmentier", new CustomDate());
+        Meal hachis = new Meal("Hachis Parmentier", new CustomDate(),"Diner");
         hachis.addAliment(boeuf);
         hachis.addAliment(patates);
         hachis.addAliment(fromage);
         hachis.setImage("hachis_parmentier");
         hachis.setIcon("hachis_parmentier_round");
 
-        Meal pp = new Meal("Poulet Paprika", new CustomDate());
+        Meal pp = new Meal("Poulet Paprika", new CustomDate(),"Déjeuner, Diner");
         pp.addAliment(poulet);
         pp.addAliment(tomate);
         pp.setImage("poulet_paprika");
         pp.setIcon("poulet_paprika_round");
 
-        Meal salade = new Meal("Salade Tomates Mozza", new CustomDate());
+        Meal salade = new Meal("Salade Tomates Mozza", new CustomDate(),"Déjeuner");
         salade.addAliment(tomate);
         salade.addAliment(fromage);
         salade.setImage("tomate_mozza");
         salade.setIcon("tomate_mozza_round");
 
-        Meal bb = new Meal("Boeuf Bourguignon", new CustomDate());
+        Meal bb = new Meal("Boeuf Bourguignon", new CustomDate(),"Diner");
         bb.addAliment(boeuf);
         bb.addAliment(tomate);
         bb.addAliment(carotte);
         bb.setImage("boeuf_bourguignon");
         bb.setIcon("boeuf_bourguignon_round");
 
-        Meal porcPatate = new Meal("Rôti de Porc à la Patate Douce", new CustomDate());
+        Meal porcPatate = new Meal("Rôti de Porc à la Patate Douce", new CustomDate(),"Déjeuner, Diner");
         porcPatate.addAliment(porc);
         porcPatate.addAliment(patates);
         porcPatate.addAliment(creme);
         porcPatate.setImage("roti_de_porc");
         porcPatate.setIcon("roti_de_porc_round");
 
-        Meal patesCarbonara = new Meal("Pates Carbonara", new CustomDate());
+        Meal patesCarbonara = new Meal("Pates Carbonara", new CustomDate(),"Déjeuner");
         patesCarbonara.addAliment(pates);
         patesCarbonara.addAliment(porc);
         patesCarbonara.addAliment(creme);
         patesCarbonara.setImage("pate_carbonara");
         patesCarbonara.setIcon("pate_carbonara_round");
 
-        /* ----------------PROFILS----------------- */
+        /*-----------------MEALS------------------*/
 
         lMeals.addAll(Arrays.asList(
                 rpc,
