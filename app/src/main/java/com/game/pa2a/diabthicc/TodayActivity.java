@@ -111,4 +111,9 @@ public class TodayActivity extends AppCompatActivity {
 //        });
     }
 
+    public void onClick(View view){
+        Intent intent = new Intent(this, TweetForm.class);
+        startActivity(intent);
+    }
+
 }

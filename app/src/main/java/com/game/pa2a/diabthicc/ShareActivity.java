@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.game.pa2a.diabthicc.models.Aliment;
 import com.game.pa2a.diabthicc.models.CustomDate;
@@ -17,6 +18,10 @@ import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.models.Profile;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,5 +84,11 @@ public class ShareActivity extends AppCompatActivity {
         recyclerViewMeal.setLayoutManager(layoutManagerMeal);
         RecyclerViewAdapterMeal recyclerViewAdapterMeal = new RecyclerViewAdapterMeal(this, lMeals);
         recyclerViewMeal.setAdapter(recyclerViewAdapterMeal);
+    }
+
+    public void onClickTweet(View view){
+        Intent intent = new Intent(this, TwitterList.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_down, R.anim.nothing);
     }
 }
