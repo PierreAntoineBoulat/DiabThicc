@@ -10,6 +10,8 @@ import java.util.List;
 public class Meal {
 
     String name;
+    String image, icon;
+
     private List<Aliment> aliments;
 
     private Diet mealDiet;
@@ -20,7 +22,33 @@ public class Meal {
     public Meal(String name, CustomDate consommationDate) {
         this.name = name;
         this.aliments = new ArrayList<>();
+        this.mealDiet = new Diet();
         this.consommationDate = consommationDate;
+    }
+
+    public Meal(String name, CustomDate consommationDate, String image, String icon) {
+        this.name = name;
+        this.image = image;
+        this.icon = icon;
+        this.aliments = new ArrayList<>();
+        this.mealDiet = new Diet();
+        this.consommationDate = consommationDate;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     public void rename(String name) {
