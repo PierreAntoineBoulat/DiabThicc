@@ -15,6 +15,7 @@ import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
+import com.game.pa2a.diabthicc.models.Profile;
 import com.game.pa2a.diabthicc.services.NotificationService;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -36,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        buildUser();
 
         ArrayList<Meal> meals;
 
@@ -64,9 +67,26 @@ public class HomeActivity extends AppCompatActivity {
         PieChart pieChart = findViewById(R.id.pieChart);
         pieChart.setUsePercentValues(true);
 
+        int protConso = 0, protMax = 0;
+
+        for(Meal m : lMeals){
+            for(Aliment a : m.getAliments()){
+                protConso += a.getDiet().getProteinIntake();
+            }
+        }
+
+        lProfiles.get(0).getProfil().setMaxProt(500);
+        protMax = lProfiles.get(0).getProfil().getMaxProt();
+
+        float consommes = (float) protConso / protMax * 100;
+        float restants = 100 - consommes;
+
+        Log.d("HomeRestants", protMax+" "+lProfiles.get(0).getName());
+        Log.d("HomeConso", protConso+"");
+
         List<PieEntry> values = new ArrayList<>();
-        values.add(new PieEntry(70f,"Restants"));
-        values.add(new PieEntry(30f,"Consommés"));
+        values.add(new PieEntry(restants,"Restants"));
+        values.add(new PieEntry(consommes,"Consommés"));
 
         PieDataSet pieDataSet = new PieDataSet(values,"");
         PieData pieData = new PieData(pieDataSet);
@@ -91,8 +111,6 @@ public class HomeActivity extends AppCompatActivity {
         // i.putExtra("ACTIVE_PROFILE", active_profile); TODO: Passer le profile (need profile implements Serializable)
 
         startService(i);
-
-        buildUser();
     }
 
     private void buildUser() {
@@ -100,8 +118,15 @@ public class HomeActivity extends AppCompatActivity {
         if(lProfiles.size() < 1 || lMeals.size() < 1) {
             /* ----------------PROFILS----------------- */
 
+            Person mcBibi = new Person("McBiceps", "John", "Sportif Confirmé", "mc_biceps", "mc_biceps_round");
+            Profile mcBibiProfile = new Profile("BibiSportif");
+            mcBibiProfile.setMaxProt(500);
+            mcBibiProfile.setMaxGlucides(200);
+            mcBibiProfile.setMaxLipides(300);
+            mcBibi.setProfil(mcBibiProfile);
+
             lProfiles.addAll(Arrays.asList(
-                    new Person("McBiceps", "John", "Sportif Confirmé", "mc_biceps", "mc_biceps_round"),
+                    mcBibi,
                     new Person("Phillipe", "Jean", "Sportif Debutant", "mc_biceps_2", "mc_biceps_2_round"),
                     new Person("Vraicas", "Florian", "Sportif Amateur", "mc_biceps_3", "mc_biceps_3_round"),
                     new Person("Sku", "Aha", "Diabétique", "mc_biceps_4", "mc_biceps_4_round"),
