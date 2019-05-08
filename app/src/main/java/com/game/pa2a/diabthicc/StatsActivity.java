@@ -18,8 +18,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<<HEAD
-
 public class StatsActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
