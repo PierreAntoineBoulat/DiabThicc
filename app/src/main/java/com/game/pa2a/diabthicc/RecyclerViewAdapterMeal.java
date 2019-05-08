@@ -10,26 +10,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.game.pa2a.diabthicc.models.Meal;
 
 import java.util.ArrayList;
 
 public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAdapterMeal.ViewHolderMeal>{
 
-    private ArrayList<String> mMeals;
+    private ArrayList<Meal> mMeals;
     TextView dialog_name;
-    //private ArrayList<String> mImages = new ArrayList<>();
+    TextView dialog_glu;
+    TextView dialog_lip;
+    TextView dialog_prot;
+    ImageView dialog_icon;
+
     private Context context;
     private Dialog mDialog;
 
-//    public RecyclerViewAdapter(Context context, ArrayList<String> mMeals, ArrayList<String> mImages) {
-//        this.mMeals = mMeals;
-//        this.mImages = mImages;
-//        this.context = context;
-//    }
 
-    public RecyclerViewAdapterMeal(Context context, ArrayList<String> mNames) {
-        this.mMeals = mNames;
+    public RecyclerViewAdapterMeal(Context context, ArrayList<Meal> mMeals) {
+        this.mMeals = mMeals;
         this.context = context;
     }
 
@@ -42,7 +43,21 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
         mDialog.setContentView(R.layout.fragement_meal);
 
         dialog_name = mDialog.findViewById(R.id.fragProfileMeal);
-        dialog_name.setText(mMeals.get(i));
+        dialog_name.setText(mMeals.get(i).getName());
+        dialog_icon = mDialog.findViewById(R.id.mealIcon);
+        //int id = context.getResources().getIdentifier(context.getPackageName()+"drawable/" + mMeals.get(i).getIcon(), null, null);
+        int resId = context.getResources().getIdentifier(
+                mMeals.get(i).getIcon(),
+                "drawable",
+                context.getPackageName()
+        );
+        dialog_icon.setImageResource(resId);
+        dialog_glu = mDialog.findViewById(R.id.mealGlu);
+        dialog_glu.setText(Integer.toString(mMeals.get(i).getDiet().getCarbsIntake()));
+        dialog_lip = mDialog.findViewById(R.id.mealLip);
+        dialog_lip.setText(Integer.toString(mMeals.get(i).getDiet().getFatIntake()));
+        dialog_prot = mDialog.findViewById(R.id.mealProt);
+        dialog_prot.setText(Integer.toString(mMeals.get(i).getDiet().getProteinIntake()));
 
         return new ViewHolderMeal(view);
     }
@@ -50,21 +65,30 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(@NonNull ViewHolderMeal viewHolder, int i) {
-        final String item = mMeals.get(i);
-        //viewHolder.image.setImageAlpha(R.drawable.ic_person_black_24dp);
-        viewHolder.name.setText(mMeals.get(i));
-        viewHolder.image.setOnClickListener(new View.OnClickListener() {
+        final Meal item = mMeals.get(i);
+        //int id = context.getResources().getIdentifier(context.getPackageName()+"drawable/" + item.getImage(), null, null);
+        int resId = context.getResources().getIdentifier(
+                item.getImage(),
+                "drawable",
+                context.getPackageName()
+        );
+        viewHolder.image.setImageResource(resId);
+        viewHolder.name.setText(item.getName());
+        viewHolder.type.setText(item.getType());
+        viewHolder.layoutMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Bundle args = new Bundle();
-//                //args.putParcelable("my_custom_object", myObject);
-//                args.putString("name", item);
-//                ProfileFragment profileFragment = ProfileFragment.newInstance(item);
-//                profileFragment.setArguments(args);
-//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragProfileContainer, profileFragment);
-//                transaction.commit();
-                dialog_name.setText(item);
+                dialog_name.setText(item.getName());
+                dialog_glu.setText(Integer.toString(item.getDiet().getCarbsIntake()));
+                dialog_lip.setText(Integer.toString(item.getDiet().getFatIntake()));
+                dialog_prot.setText(Integer.toString(item.getDiet().getProteinIntake()));
+                //int id = context.getResources().getIdentifier(context.getPackageName()+"drawable/" + item.getIcon(), null, null);
+                int resId = context.getResources().getIdentifier(
+                        item.getIcon(),
+                        "drawable",
+                        context.getPackageName()
+                );
+                dialog_icon.setImageResource(resId);
                 mDialog.show();
             }
         });
@@ -72,18 +96,21 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
 
     @Override
     public int getItemCount() {
-        //return mImages.size();
         return mMeals.size();
     }
 
     public class ViewHolderMeal extends RecyclerView.ViewHolder{
         ImageView image;
         TextView name;
+        TextView type;
+        LinearLayout layoutMeal;
 
         public ViewHolderMeal (View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageMeal);
             name = itemView.findViewById(R.id.nameMeal);
+            type = itemView.findViewById(R.id.typeMeal);
+            layoutMeal = itemView.findViewById(R.id.layoutMeal);
         }
 
     }

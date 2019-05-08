@@ -1,7 +1,7 @@
 package com.game.pa2a.diabthicc.models;
 
 import android.util.Pair;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +9,10 @@ import java.util.List;
  * Person class, where the user's personal information are stored.
  */
 
-public class Person {
+public class Person implements Serializable {
 
     private String name, firstName;
+    String image, icon;
 
     // We assume 0 is female, 1 is male
     private boolean sexe;
@@ -37,6 +38,30 @@ public class Person {
         this.name = name;
         this.firstName = firstName;
         this.profil = new Profile(profil);
+    }
+
+    public Person(String name, String firstName, String profil, String image, String icon) {
+        this.name = name;
+        this.firstName = firstName;
+        this.image = image;
+        this.icon = icon;
+        this.profil = new Profile(profil);
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     /**

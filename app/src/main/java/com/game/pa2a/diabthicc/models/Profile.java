@@ -1,6 +1,8 @@
 package com.game.pa2a.diabthicc.models;
 
-public class Profile {
+import java.io.Serializable;
+
+public class Profile implements Serializable {
 
 
     private String name;

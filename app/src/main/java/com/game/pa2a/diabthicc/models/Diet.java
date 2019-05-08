@@ -1,6 +1,8 @@
 package com.game.pa2a.diabthicc.models;
 
-public class Diet {
+import java.io.Serializable;
+
+public class Diet implements Serializable {
 
     private int proteinIntake = 0;
     private int fatIntake = 0;
@@ -32,7 +34,7 @@ public class Diet {
         this.caloricValue = (this.proteinIntake + this.carbsIntake) * DEFAULT_CALORIC_MULTIPLIER + this.fatIntake * FAT_CALORIC_MULTIPLIER;
     }
 
-    int getProteinIntake() {
+    public int getProteinIntake() {
         return proteinIntake;
     }
 
@@ -43,7 +45,7 @@ public class Diet {
         }
     }
 
-    int getFatIntake() {
+    public int getFatIntake() {
         return fatIntake;
     }
 
@@ -54,7 +56,7 @@ public class Diet {
         }
     }
 
-    int getCarbsIntake() {
+    public int getCarbsIntake() {
         return carbsIntake;
     }
 
@@ -65,7 +67,7 @@ public class Diet {
         }
     }
 
-    int getCaloricIntake() {
+    public int getCaloricIntake() {
         return caloricValue;
     }
 }

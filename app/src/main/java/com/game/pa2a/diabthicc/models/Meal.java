@@ -1,5 +1,6 @@
 package com.game.pa2a.diabthicc.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,9 +8,13 @@ import java.util.List;
 /**
  * A meal is composed of one or multiple ingredients. It is to be consumed on a known date, the list of aliments can be updated and
  */
-public class Meal {
+public class Meal implements Serializable {
 
     String name;
+    String image, icon;
+
+    String type;
+
     private List<Aliment> aliments;
 
     private Diet mealDiet;
@@ -20,7 +25,46 @@ public class Meal {
     public Meal(String name, CustomDate consommationDate) {
         this.name = name;
         this.aliments = new ArrayList<>();
+        this.mealDiet = new Diet();
         this.consommationDate = consommationDate;
+    }
+
+    public Meal(String name, CustomDate consommationDate, String type) {
+        this.name = name;
+        this.type = type;
+        this.aliments = new ArrayList<>();
+        this.mealDiet = new Diet();
+        this.consommationDate = consommationDate;
+    }
+
+    public Meal(String name, CustomDate consommationDate, String type, String image, String icon) {
+        this.name = name;
+        this.image = image;
+        this.icon = icon;
+        this.type = type;
+        this.aliments = new ArrayList<>();
+        this.mealDiet = new Diet();
+        this.consommationDate = consommationDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     public void rename(String name) {
