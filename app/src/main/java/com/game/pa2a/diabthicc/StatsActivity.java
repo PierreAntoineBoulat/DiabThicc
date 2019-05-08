@@ -2,6 +2,7 @@ package com.game.pa2a.diabthicc;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -12,7 +13,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StatsActivity extends AppCompatActivity {
 
@@ -61,6 +69,25 @@ public class StatsActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+
+
+        LineChart chart = (LineChart) findViewById(R.id.WeightChart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+
+        // turn your data into Entry objects
+        entries.add(new Entry(1, 15));
+        entries.add(new Entry(2, 17));
+        entries.add(new Entry(3, 19));
+
+        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+        dataSet.setColor(Color.BLUE);
+        dataSet.setValueTextColor(Color.RED); // styling, ...
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
     }
 
 }

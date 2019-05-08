@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/objectifPoids"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Activity Stats"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="Objectif de poids"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/aujdPoids"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:text="Aujourd'hui, vous avez "
+        app:layout_constraintEnd_toEndOf="@+id/objectifPoids"
+        app:layout_constraintStart_toStartOf="@+id/objectifPoids"
+        app:layout_constraintTop_toBottomOf="@+id/objectifPoids" />
+
+    <Button
+        android:id="@+id/updateWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Mettre à jour votre poids"
+        app:layout_constraintEnd_toEndOf="@+id/aujdPoids"
+        app:layout_constraintStart_toStartOf="@+id/aujdPoids"
+        app:layout_constraintTop_toBottomOf="@+id/aujdPoids" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/WeightChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigationViewStats"
+        app:layout_constraintEnd_toEndOf="@+id/updateWeight"
+        app:layout_constraintEnd_toStartOf="@+id/navigationViewStats"
+        app:layout_constraintStart_toStartOf="@+id/updateWeight"
+        app:layout_constraintTop_toBottomOf="@+id/updateWeight">
+
+    </com.github.mikephil.charting.charts.LineChart>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigationViewStats"
