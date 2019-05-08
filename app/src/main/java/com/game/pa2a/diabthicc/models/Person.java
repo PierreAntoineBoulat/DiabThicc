@@ -1,6 +1,9 @@
 package com.game.pa2a.diabthicc.models;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Person class, where the user's personal information are stored.
@@ -8,17 +11,22 @@ import java.util.ArrayList;
 
 public class Person {
 
-    String name, firstName;
+    private String name, firstName;
 
     // We assume 0 is female, 1 is male
-    boolean sexe;
+    private boolean sexe;
 
-    double height, weight;
-    int age;
-    Profile profil;
+    private List<Pair<CustomDate, Double>> archivedWeights = new ArrayList<>(); // All new weights must send the old weight into the archive
 
-    MealsDaily currentDiet;
-    ArrayList<MealsDaily> pastDiets;
+    private CustomDate lastModified; // date of last modification of weight
+    private double height, weight;
+    private int age;
+    private Profile profil;
+
+    List<Pair<CustomDate, Diet>> archivedDiets = new ArrayList<>();
+
+    private MealsDaily currentDiet;
+    private ArrayList<MealsDaily> pastDiets;
 
     public Person(String name, String firstName) {
         this.name = name;
@@ -72,7 +80,13 @@ public class Person {
     }
 
     public void setWeight(double weight) {
-        this.weight = weight;
+        if(lastModified.isToday()) {
+            this.weight = weight;
+        } else {
+            archivedWeights.add(new Pair(lastModified, this.weight));
+            lastModified = new CustomDate();
+            this.weight = weight;
+        }
     }
 
     public int getAge() {
@@ -105,6 +119,10 @@ public class Person {
 
     public void setPastDiets(ArrayList<MealsDaily> pastDiets) {
         this.pastDiets = pastDiets;
+    }
+
+    public List<Pair<CustomDate, Double>> getArchivedWeights() {
+        return archivedWeights;
     }
 
     @Override

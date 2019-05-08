@@ -7,42 +7,16 @@ public class Profile {
 
     // TODO : Can be replaced by a Diet Object (prots, fats, carbs)
     // Default needed informations
-    int maxLipides, maxGlucides, maxProt, numProfil;
-
+    Diet objectif;
     // Diabetes need extra info
     int maxSugarLevel = 0; // 0 is the default for "not a diabetic"
-
-    public Profile() {
-    }
 
     public Profile(String name) {
         this.name=name;
     }
 
-    public int getMaxLipides() {
-        return maxLipides;
-    }
-
-    public void setMaxLipides(int maxLipides) {
-        this.maxLipides = maxLipides;
-    }
-
-    public int getMaxGlucides() {
-        return maxGlucides;
-    }
-
-    public void setMaxGlucides(int maxGlucides) {
-        this.maxGlucides = maxGlucides;
-    }
-
-    public int getNumProfil() { return numProfil; }
-
-    public int getMaxProt() {
-        return maxProt;
-    }
-
-    public void setMaxProt(int maxProt) {
-        this.maxProt = maxProt;
+    public Diet getObjectif() {
+        return objectif;
     }
 
     public String getName() {
