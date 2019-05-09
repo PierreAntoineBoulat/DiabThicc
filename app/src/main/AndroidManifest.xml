@@ -36,6 +36,12 @@
         <activity android:name=".TweetForm"/>
 
         <service android:name=".services.NotificationService" />
+        <receiver android:name=".services.BroadcastCloseNotif" android:enabled="true">
+            <intent-filter>
+                <action android:name="CANCEL"/>
+                <action android:name="DELAY"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

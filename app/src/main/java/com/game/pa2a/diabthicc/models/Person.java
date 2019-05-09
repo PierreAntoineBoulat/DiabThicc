@@ -133,6 +133,10 @@ public class Person implements Serializable {
         this.pastDiets = pastDiets;
     }
 
+    public void addPastDiets(ArrayList<MealsDaily> pastDiets) {
+        this.pastDiets.addAll(pastDiets);
+    }
+
     @Override
     public String toString(){
         return this.name;
