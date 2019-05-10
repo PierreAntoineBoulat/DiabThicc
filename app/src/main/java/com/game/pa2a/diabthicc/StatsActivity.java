@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.game.pa2a.diabthicc.MPclasses.DateXAxisFormat;
+import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
 import com.github.mikephil.charting.charts.LineChart;
@@ -58,10 +61,23 @@ public class StatsActivity extends AppCompatActivity {
 
         List<Entry> entries = new ArrayList<Entry>();
 
-        // turn your data into Entry objects
-        entries.add(new Entry(1, 15));
-        entries.add(new Entry(2, 17));
-        entries.add(new Entry(3, 19));
+        Person person = profiles.get(0);
+
+        ArrayList<Pair<CustomDate, Double>> allWeights = person.getArchivedWeights();
+
+        CustomDate today = new CustomDate();
+
+        CustomDate yesterday = new CustomDate(today.getYear(), today.getMonth()-1, today.getDay() - 1, today.getHours(), today.getMinutes());
+
+        // Only for demo purposes
+        allWeights.add(new Pair<>(yesterday, 40.0));
+        allWeights.add(new Pair<>(today, 45.0));
+
+        for(int i = 0; i < allWeights.size(); i++) {
+            entries.add(new Entry(allWeights.get(i).first.getTime(), allWeights.get(i).second.floatValue()));
+        }
+
+        chart.getXAxis().setValueFormatter(new DateXAxisFormat());
 
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         dataSet.setColor(Color.BLUE);
