@@ -17,7 +17,7 @@ public class Person implements Serializable {
     // We assume 0 is female, 1 is male
     private boolean sexe;
 
-    private List<Pair<CustomDate, Double>> archivedWeights = new ArrayList<>(); // All new weights must send the old weight into the archive
+    private ArrayList<Pair<CustomDate, Double>> archivedWeights = new ArrayList<>(); // All new weights must send the old weight into the archive
 
     private CustomDate lastModified; // date of last modification of weight
     private double height, weight;
@@ -108,7 +108,7 @@ public class Person implements Serializable {
         if(lastModified.isToday()) {
             this.weight = weight;
         } else {
-            archivedWeights.add(new Pair(lastModified, this.weight));
+            archivedWeights.add(new Pair<>(lastModified, this.weight));
             lastModified = new CustomDate();
             this.weight = weight;
         }
@@ -146,7 +146,7 @@ public class Person implements Serializable {
         this.pastDiets = pastDiets;
     }
 
-    public List<Pair<CustomDate, Double>> getArchivedWeights() {
+    public ArrayList<Pair<CustomDate, Double>> getArchivedWeights() {
         return archivedWeights;
     }
 
