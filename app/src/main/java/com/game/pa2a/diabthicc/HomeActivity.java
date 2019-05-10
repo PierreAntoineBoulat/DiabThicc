@@ -9,17 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.game.pa2a.diabthicc.models.Aliment;
-import com.game.pa2a.diabthicc.models.CustomDate;
-import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
-import com.game.pa2a.diabthicc.models.MealsDaily;
 import com.game.pa2a.diabthicc.models.Person;
-import com.game.pa2a.diabthicc.models.Profile;
 import com.game.pa2a.diabthicc.services.CurrentUserService;
 import com.game.pa2a.diabthicc.services.NotificationService;
-import com.game.pa2a.diabthicc.services.UserApplication;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -27,7 +23,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -42,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 
         currentUser = CurrentUserService.currentUser;
 
-        List<Meal> lMeals = currentUser.getCurrentDiet().getMeals();
+        initData();
 
         bottomNavigationView = findViewById(R.id.navigationViewHome);
         Menu menu = bottomNavigationView.getMenu();
@@ -52,24 +47,49 @@ public class HomeActivity extends AppCompatActivity {
                 new BottomNavListener(this)
         );
 
+        Intent i = new Intent(HomeActivity.this, NotificationService.class);
+        i.putExtra("ACTIVE_PROFILE", currentUser);
+        startService(i);
+    }
+
+    private void initData(){
+        List<Meal> lMeals = currentUser.getCurrentDiet().getMeals();
+
         PieChart pieChart = findViewById(R.id.pieChart);
         pieChart.setUsePercentValues(true);
 
         int protConso = 0, protMax = 0;
+        int fatConso = 0, fatMax = 0;
+        int carbsConso = 0, carbsMax = 0;
 
         for(Meal m : lMeals){
             for(Aliment a : m.getAliments()){
                 protConso += a.getDiet().getProteinIntake();
+                fatConso += a.getDiet().getFatIntake();
+                carbsConso += a.getDiet().getCarbsIntake();
             }
         }
 
         protMax = currentUser.getProfil().getMaxProt();
+        fatMax = currentUser.getProfil().getMaxLipides();
+        carbsMax = currentUser.getProfil().getMaxGlucides();
 
-        float consommes = (float) protConso / protMax * 100;
+        float pcProt = (float) protConso / protMax * 100;
+        float pcFat = (float) fatConso / fatMax * 100;
+        float pcCarbs = (float) carbsConso / carbsMax * 100;
+
+        Log.d("STATS", pcProt + " - " + pcFat + " - " + pcCarbs);
+
+        ProgressBar pbProt = findViewById(R.id.progressBarProt);
+        ProgressBar pbFat = findViewById(R.id.progressBarFat);
+        ProgressBar pbCarbs = findViewById(R.id.progressBarCarbs);
+
+        pbProt.setProgress((int)pcProt);
+        pbFat.setProgress((int)pcFat);
+        pbCarbs.setProgress((int)pcCarbs);
+
+        float consommes = ( (pcProt > 100 ? 100 : pcProt) + (pcFat > 100 ? 100 : pcFat) + (pcCarbs > 100 ? 100 : pcCarbs) ) / 3;
         float restants = 100 - consommes;
-
-        Log.d("HomeRestants", protMax+" ");
-        Log.d("HomeConso", protConso+"");
 
         List<PieEntry> values = new ArrayList<>();
         values.add(new PieEntry(restants,"Restants"));
@@ -91,126 +111,9 @@ public class HomeActivity extends AppCompatActivity {
 
         pieChart.setDrawEntryLabels(false);
 
-        Log.d("HomeActivity","Démarrage du service...");
 
 
-        Intent i = new Intent(HomeActivity.this, NotificationService.class);
-        i.putExtra("ACTIVE_PROFILE", currentUser);
-        startService(i);
-    }
 
-    private void buildUser() {
-
-//        if(lProfiles.size() < 1 || lMeals.size() < 1) {
-//            /* ----------------PROFILS----------------- */
-//
-//            Log.d("HomeActivity","ca construit");
-//
-//            Person mcBibi = new Person("McBiceps", "John", "Sportif Confirmé", "mc_biceps", "mc_biceps_round");
-//            Profile mcBibiProfile = new Profile("BibiSportif");
-//            mcBibiProfile.setMaxProt(500);
-//            mcBibiProfile.setMaxGlucides(200);
-//            mcBibiProfile.setMaxLipides(300);
-//            mcBibi.setProfil(mcBibiProfile);
-//
-//            lProfiles.addAll(Arrays.asList(
-//                    mcBibi,
-//                    new Person("Phillipe", "Jean", "Sportif Debutant", "mc_biceps_2", "mc_biceps_2_round"),
-//                    new Person("Vraicas", "Florian", "Sportif Amateur", "mc_biceps_3", "mc_biceps_3_round"),
-//                    new Person("Sku", "Aha", "Diabétique", "mc_biceps_4", "mc_biceps_4_round"),
-//                    new Person("Zeh", "Memory", "Coach Sportif", "mc_biceps_5", "mc_biceps_5_round"),
-//                    new Person("Advanced", "Koor", "Coach Sportif", "mc_biceps_6", "mc_biceps_6_round"),
-//                    new Person("Uherelle", "Penny", "Coach Sportif", "mc_biceps_7", "mc_biceps_7_round"),
-//                    new Person("Wise", "Editor", "Coach Sportif", "mc_biceps_8", "mc_biceps_8_round")
-//            ));
-//
-//            /* ----------------ALIMENTS---------------- */
-//
-//            Aliment poulet = new Aliment("Poulet", new Diet(31, 0, 5));
-//            Aliment boeuf = new Aliment("Boeuf", new Diet(28, 0, 15));
-//            Aliment porc = new Aliment("Porc", new Diet(30, 0, 4));
-//
-//            Aliment fromage = new Aliment("Fromage", new Diet(24, 30, 1));
-//
-//            Aliment riz = new Aliment("Riz", new Diet(2, 0, 26));
-//            Aliment pates = new Aliment("Pates", new Diet(12, 4, 67));
-//            Aliment patates = new Aliment("Pommes de terre", new Diet(2, 0, 18));
-//
-//            Aliment creme = new Aliment("Creme fraiche", new Diet(0, 12, 0));
-//            Aliment tomate = new Aliment("Tomates", new Diet(1, 2, 0));
-//            Aliment carotte = new Aliment("Carottes", new Diet(1, 7, 0));
-//            Aliment champignons = new Aliment("Champignons", new Diet(3, 0, 1));
-//
-//
-//            /* ----------------REPAS---------------- */
-//
-//            Meal rpc = new Meal("Riz Poulet Curry", new CustomDate(), "Déjeuner");
-//            rpc.addAliment(riz);
-//            rpc.addAliment(poulet);
-//            rpc.addAliment(creme);
-//            rpc.setImage("poulet_curry");
-//            rpc.setIcon("poulet_curry_round");
-//
-//            Meal risotto = new Meal("Risotto Champignons", new CustomDate(), "Déjeuner");
-//            risotto.addAliment(riz);
-//            risotto.addAliment(creme);
-//            risotto.addAliment(champignons);
-//            risotto.setImage("risotto_champignon");
-//            risotto.setIcon("risotto_champignon_round");
-//
-//            Meal hachis = new Meal("Hachis Parmentier", new CustomDate(), "Diner");
-//            hachis.addAliment(boeuf);
-//            hachis.addAliment(patates);
-//            hachis.addAliment(fromage);
-//            hachis.setImage("hachis_parmentier");
-//            hachis.setIcon("hachis_parmentier_round");
-//
-//            Meal pp = new Meal("Poulet Paprika", new CustomDate(), "Déjeuner, Diner");
-//            pp.addAliment(poulet);
-//            pp.addAliment(tomate);
-//            pp.setImage("poulet_paprika");
-//            pp.setIcon("poulet_paprika_round");
-//
-//            Meal salade = new Meal("Salade Tomates Mozza", new CustomDate(), "Déjeuner");
-//            salade.addAliment(tomate);
-//            salade.addAliment(fromage);
-//            salade.setImage("tomate_mozza");
-//            salade.setIcon("tomate_mozza_round");
-//
-//            Meal bb = new Meal("Boeuf Bourguignon", new CustomDate(), "Diner");
-//            bb.addAliment(boeuf);
-//            bb.addAliment(tomate);
-//            bb.addAliment(carotte);
-//            bb.setImage("boeuf_bourguignon");
-//            bb.setIcon("boeuf_bourguignon_round");
-//
-//            Meal porcPatate = new Meal("Rôti de Porc à la Patate Douce", new CustomDate(), "Déjeuner, Diner");
-//            porcPatate.addAliment(porc);
-//            porcPatate.addAliment(patates);
-//            porcPatate.addAliment(creme);
-//            porcPatate.setImage("roti_de_porc");
-//            porcPatate.setIcon("roti_de_porc_round");
-//
-//            Meal patesCarbonara = new Meal("Pates Carbonara", new CustomDate(), "Déjeuner");
-//            patesCarbonara.addAliment(pates);
-//            patesCarbonara.addAliment(porc);
-//            patesCarbonara.addAliment(creme);
-//            patesCarbonara.setImage("pate_carbonara");
-//            patesCarbonara.setIcon("pate_carbonara_round");
-//
-//            /*-----------------MEALS------------------*/
-//
-//            lMeals.addAll(Arrays.asList(
-//                    rpc,
-//                    risotto,
-//                    hachis,
-//                    pp,
-//                    salade,
-//                    bb,
-//                    porcPatate,
-//                    patesCarbonara
-//            ));
-//        }
     }
 
 }
