@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.game.pa2a.diabthicc.models.Aliment;
 import com.game.pa2a.diabthicc.models.Meal;
@@ -18,6 +19,7 @@ import com.game.pa2a.diabthicc.services.CurrentUserService;
 import com.game.pa2a.diabthicc.services.NotificationService;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -102,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                 Color.rgb(200,200,200),
                 Color.rgb(103,148,54)
         );
+        pieData.setDrawValues(false);
 
         pieChart.setData(pieData);
 
@@ -110,9 +113,14 @@ public class HomeActivity extends AppCompatActivity {
         pieChart.setDescription(d);
 
         pieChart.setDrawEntryLabels(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.getLegend().setCustom(new ArrayList<LegendEntry>());
 
+        TextView pcConso = findViewById(R.id.pcConso);
+        TextView pcLeft = findViewById(R.id.pcLeft);
 
-
+        pcConso.setText(String.format("%s %%", (int)Math.round(consommes)));
+        pcLeft.setText(String.format("%s %%", (int)Math.round(restants)));
 
     }
 
