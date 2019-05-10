@@ -150,6 +150,10 @@ public class Person implements Serializable {
         return archivedWeights;
     }
 
+    public void addPastDiets(ArrayList<MealsDaily> pastDiets) {
+        this.pastDiets.addAll(pastDiets);
+    }
+
     @Override
     public String toString(){
         return this.name;

@@ -14,6 +14,7 @@ import com.game.pa2a.diabthicc.models.Aliment;
 import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
+import com.game.pa2a.diabthicc.models.MealsDaily;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.models.Profile;
 import com.game.pa2a.diabthicc.services.NotificationService;
@@ -45,7 +46,6 @@ public class HomeActivity extends AppCompatActivity {
         if( (meals = (ArrayList<Meal>)getIntent().getSerializableExtra("meals")) != null)
         {
             this.lMeals = meals;
-            Log.d("Home","OKMEALS");
         }
 
         ArrayList<Person> profiles;
@@ -78,6 +78,12 @@ public class HomeActivity extends AppCompatActivity {
         lProfiles.get(0).getProfil().setMaxProt(500);
         protMax = lProfiles.get(0).getProfil().getMaxProt();
 
+        MealsDaily mealsDaily = new MealsDaily();
+        this.lMeals.get(0).setConsommationDate(new CustomDate());
+        mealsDaily.addMeal(this.lMeals.get(0));
+        mealsDaily.addMeal(this.lMeals.get(1));
+        lProfiles.get(0).setCurrentDiet(mealsDaily);
+
         float consommes = (float) protConso / protMax * 100;
         float restants = 100 - consommes;
 
@@ -108,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         Intent i = new Intent(HomeActivity.this, NotificationService.class);
-        // i.putExtra("ACTIVE_PROFILE", active_profile); TODO: Passer le profile (need profile implements Serializable)
+        i.putExtra("ACTIVE_PROFILE", lProfiles.get(0)); // TODO: Passer le profile (need profile implements Serializable)
 
         startService(i);
     }
@@ -117,6 +123,8 @@ public class HomeActivity extends AppCompatActivity {
 
         if(lProfiles.size() < 1 || lMeals.size() < 1) {
             /* ----------------PROFILS----------------- */
+
+            Log.d("HomeActivity","ca construit");
 
             Person mcBibi = new Person("McBiceps", "John", "Sportif Confirmé", "mc_biceps", "mc_biceps_round");
             Profile mcBibiProfile = new Profile("BibiSportif");
