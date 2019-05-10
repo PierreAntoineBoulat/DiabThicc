@@ -119,7 +119,7 @@ public class NotificationService extends Service {
 
         notifNextMeal = new NotificationCompat.Builder(context.get(), "channel_notif_id_meal")
                 .setSmallIcon(R.drawable.ic_local_dining_black_24dp)
-                .setContentTitle("Vous avez un nouveau repas à prendre")
+                .setContentTitle("Vous avez un nouveau repas à prendre aujourd'hui !")
                 .setContentText(meal.getName() + ": " + meal.getConsommationDate().hourFormat())
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setAutoCancel(true)
@@ -162,9 +162,10 @@ public class NotificationService extends Service {
 
         notifNextWeight = new NotificationCompat.Builder(context.get(), "channel_notif_id_weight")
                 .setSmallIcon(R.drawable.ic_local_dining_black_24dp)
-                .setContentTitle("N'oubliez pas de vous pesez !")
-                .setContentText("Il est important de controler son poid tous les jours pour s'assurer de la bon déroulement de vos objectifs !")
-                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setContentTitle("C'est l'heure de la pesée !")
+                .setContentText("N'oubliez pas de relever votre poid..!")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Il est important de controler son poid tous les jours pour s'assurer du bon déroulement de vos objectifs !"))
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
