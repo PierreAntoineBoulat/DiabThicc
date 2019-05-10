@@ -18,6 +18,7 @@ import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.models.Profile;
+import com.game.pa2a.diabthicc.services.CurrentUserService;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -31,35 +32,19 @@ public class ShareActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     private ArrayList<Person> lProfiles = new ArrayList<>();
-    private ArrayList<Meal> lMeals = new ArrayList<>();
+    private List<Meal> lMeals = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
-        ArrayList<Meal> meals;
-
-        if( (meals = (ArrayList<Meal>)getIntent().getSerializableExtra("meals")) != null)
-        {
-            this.lMeals = meals;
-            Log.d("Share","OKMEALS");
-        }
-
-        ArrayList<Person> profiles;
-
-        if( (profiles = (ArrayList<Person>)getIntent().getSerializableExtra("profiles")) != null)
-        {
-            this.lProfiles = profiles;
-            Log.d("Share","OKPROFILES");
-        }
-
         bottomNavigationView = findViewById(R.id.navigationViewShare);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavListener(this, lMeals, lProfiles)
+                new BottomNavListener(this)
         );
 
         initData();
@@ -69,6 +54,16 @@ public class ShareActivity extends AppCompatActivity {
 
         /* -------------------------------------- */
 
+        lProfiles.addAll(Arrays.asList(
+                    new Person("Phillipe", "Jean", "Sportif Debutant", "mc_biceps_2", "mc_biceps_2_round"),
+                    new Person("Vraicas", "Florian", "Sportif Amateur", "mc_biceps_3", "mc_biceps_3_round"),
+                    new Person("Sku", "Aha", "Diabétique", "mc_biceps_4", "mc_biceps_4_round"),
+                    new Person("Zeh", "Memory", "Coach Sportif", "mc_biceps_5", "mc_biceps_5_round"),
+                    new Person("Advanced", "Koor", "Coach Sportif", "mc_biceps_6", "mc_biceps_6_round"),
+                    new Person("Uherelle", "Penny", "Coach Sportif", "mc_biceps_7", "mc_biceps_7_round"),
+                    new Person("Wise", "Editor", "Coach Sportif", "mc_biceps_8", "mc_biceps_8_round")
+            ));
+        lMeals = CurrentUserService.currentUser.getCurrentDiet().getMeals();
         initRecyclerView();
     }
 

@@ -30,36 +30,18 @@ public class TodayActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     CustomDate currentDate;
-    private ArrayList<Meal> lMeals;
-    private ArrayList<Person> lProfiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today);
 
-        ArrayList<Meal> meals;
-
-        if( (meals = (ArrayList<Meal>)getIntent().getSerializableExtra("meals")) != null)
-        {
-            this.lMeals = meals;
-            Log.d("Today","OKMEALS");
-        }
-
-        ArrayList<Person> profiles;
-
-        if( (profiles = (ArrayList<Person>)getIntent().getSerializableExtra("profiles")) != null)
-        {
-            this.lProfiles = profiles;
-            Log.d("Today","OKPROFILES");
-        }
-
         bottomNavigationView = findViewById(R.id.navigationViewToday);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(1);
         menuItem.setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavListener(this, lMeals, lProfiles)
+                new BottomNavListener(this)
         );
 
         currentDate = new CustomDate(2019,05,9,15,30);
