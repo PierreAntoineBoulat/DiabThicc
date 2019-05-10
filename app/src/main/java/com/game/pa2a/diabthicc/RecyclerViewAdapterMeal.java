@@ -15,10 +15,11 @@ import android.widget.TextView;
 import com.game.pa2a.diabthicc.models.Meal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAdapterMeal.ViewHolderMeal>{
 
-    private ArrayList<Meal> mMeals;
+    private List<Meal> mMeals;
     TextView dialog_name;
     TextView dialog_glu;
     TextView dialog_lip;
@@ -29,7 +30,7 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
     private Dialog mDialog;
 
 
-    public RecyclerViewAdapterMeal(Context context, ArrayList<Meal> mMeals) {
+    public RecyclerViewAdapterMeal(Context context, List<Meal> mMeals) {
         this.mMeals = mMeals;
         this.context = context;
     }

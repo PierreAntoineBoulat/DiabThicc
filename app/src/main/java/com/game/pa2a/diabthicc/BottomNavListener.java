@@ -17,10 +17,8 @@ public class BottomNavListener implements BottomNavigationView.OnNavigationItemS
     private ArrayList<Meal> meals;
     private ArrayList<Person> profiles;
 
-    public BottomNavListener(Activity caller, ArrayList<Meal> meals, ArrayList<Person> profiles){
+    public BottomNavListener(Activity caller){
         this.caller = caller;
-        this.meals = meals;
-        this.profiles = profiles;
     }
 
     @Override
@@ -29,29 +27,21 @@ public class BottomNavListener implements BottomNavigationView.OnNavigationItemS
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 intent = new Intent(caller, HomeActivity.class);
-                intent.putExtra("profiles", profiles);
-                intent.putExtra("meals", meals);
                 caller.startActivity(intent);
                 break;
 
             case R.id.navigation_today:
                 intent = new Intent(caller, TodayActivity.class);
-                intent.putExtra("profiles", profiles);
-                intent.putExtra("meals", meals);
                 caller.startActivity(intent);
                 break;
 
             case R.id.navigation_stats:
                 intent = new Intent(caller, StatsActivity.class);
-                intent.putExtra("profiles", profiles);
-                intent.putExtra("meals", meals);
                 caller.startActivity(intent);
                 break;
 
             case R.id.navigation_share:
                 intent = new Intent(caller, ShareActivity.class);
-                intent.putExtra("profiles", profiles);
-                intent.putExtra("meals", meals);
                 caller.startActivity(intent);
                 break;
 

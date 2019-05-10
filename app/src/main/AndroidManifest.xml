@@ -14,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:name="com.game.pa2a.diabthicc.services.UserApplication">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +37,8 @@
         <activity android:name=".TweetForm"/>
 
         <service android:name=".services.NotificationService" />
+        <service android:name=".services.CurrentUserService" />
+
         <receiver android:name=".services.BroadcastCloseNotif" android:enabled="true">
             <intent-filter>
                 <action android:name="CANCEL"/>

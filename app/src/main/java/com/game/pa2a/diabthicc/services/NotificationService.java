@@ -62,7 +62,7 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         context = new WeakReference<>(getBaseContext());
-        currentUser = (Person) intent.getExtras().get("ACTIVE_PROFILE");
+        currentUser = CurrentUserService.currentUser;
         mNotificationManager = NotificationManagerCompat.from(context.get());
         createNotificationChannel();
         Timer timer = new Timer();

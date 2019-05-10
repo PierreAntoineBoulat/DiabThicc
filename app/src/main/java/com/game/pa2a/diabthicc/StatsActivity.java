@@ -24,8 +24,6 @@ import java.util.List;
 public class StatsActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    private ArrayList<Meal> lMeals;
-    private ArrayList<Person> lProfiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,24 +35,8 @@ public class StatsActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
 
-        ArrayList<Meal> meals;
-
-        if( (meals = (ArrayList<Meal>)getIntent().getSerializableExtra("meals")) != null)
-        {
-            this.lMeals = meals;
-            Log.d("Stats","OKMEALS");
-        }
-
-        ArrayList<Person> profiles;
-
-        if( (profiles = (ArrayList<Person>)getIntent().getSerializableExtra("profiles")) != null)
-        {
-            this.lProfiles = profiles;
-            Log.d("Stats","OKPROFILES");
-        }
-
         bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavListener(this, lMeals, lProfiles)
+                new BottomNavListener(this)
         );
 
         LineChart chart = (LineChart) findViewById(R.id.WeightChart);

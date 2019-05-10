@@ -32,12 +32,14 @@ public class Person implements Serializable {
     public Person(String name, String firstName) {
         this.name = name;
         this.firstName = firstName;
+        currentDiet = new MealsDaily();
     }
 
     public Person(String name, String firstName, String profil) {
         this.name = name;
         this.firstName = firstName;
         this.profil = new Profile(profil);
+        currentDiet = new MealsDaily();
     }
 
     public Person(String name, String firstName, String profil, String image, String icon) {
@@ -46,6 +48,7 @@ public class Person implements Serializable {
         this.image = image;
         this.icon = icon;
         this.profil = new Profile(profil);
+        currentDiet = new MealsDaily();
     }
 
     public void setImage(String image) {
