@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.game.pa2a.diabthicc.HomeActivity;
 import com.game.pa2a.diabthicc.R;
 import com.game.pa2a.diabthicc.TodayActivity;
 import com.game.pa2a.diabthicc.models.CustomDate;
@@ -27,10 +28,16 @@ import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.models.Profile;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,6 +47,8 @@ import static android.app.Notification.EXTRA_NOTIFICATION_TAG;
 public class NotificationService extends Service {
     private static NotificationManagerCompat mNotificationManager;
     private static NotificationCompat.Builder notifNextMeal = null;
+    private static NotificationCompat.Builder notifNextWeight = null;
+    private static boolean firstConnexionOfDay = true;
     private WeakReference<Context> context;
     private static long timeLastNotif = 0;
     private Person currentUser;
@@ -57,7 +66,7 @@ public class NotificationService extends Service {
         mNotificationManager = NotificationManagerCompat.from(context.get());
         createNotificationChannel();
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new NotificationTask(), 0, 5000);
+        timer.scheduleAtFixedRate(new NotificationTask(), 0, 500);
         return START_STICKY;
     }
 
@@ -70,13 +79,13 @@ public class NotificationService extends Service {
         if (myAlarmService != null)
             myAlarmService.set(
                     AlarmManager.ELAPSED_REALTIME,
-                    SystemClock.elapsedRealtime() + 5000,
+                    SystemClock.elapsedRealtime() + 500,
                     restartPendingIntent);
 
         super.onTaskRemoved(rootIntent);
     }
 
-    private void createNotification(Meal meal) {
+    private void createNotificationMeal(Meal meal) {
         Intent delayIntent = new Intent(this, BroadcastCloseNotif.class);
         delayIntent.setAction("delay");
         delayIntent.putExtra("ID", 1);
@@ -98,7 +107,7 @@ public class NotificationService extends Service {
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         // Get the PendingIntent containing the entire back stack
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         int resId = this.getResources().getIdentifier(
@@ -110,7 +119,7 @@ public class NotificationService extends Service {
 
         notifNextMeal = new NotificationCompat.Builder(context.get(), "channel_notif_id_meal")
                 .setSmallIcon(R.drawable.ic_local_dining_black_24dp)
-                .setContentTitle("Vous avez un nouveau repas à prendre")
+                .setContentTitle("Vous avez un nouveau repas à prendre aujourd'hui !")
                 .setContentText(meal.getName() + ": " + meal.getConsommationDate().hourFormat())
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setAutoCancel(true)
@@ -129,6 +138,46 @@ public class NotificationService extends Service {
         mNotificationManager.notify(1, notifNextMeal.build());
     }
 
+    private void createNotificationWeight() {
+        Intent delayIntent = new Intent(this, BroadcastCloseNotif.class);
+        delayIntent.setAction("let's go");
+        delayIntent.putExtra("ID", 2);
+        PendingIntent snoozePendingIntent =
+                PendingIntent.getBroadcast(this, 2, delayIntent, 0);
+
+        Intent dismissIntent = new Intent(this, BroadcastCloseNotif.class);
+        dismissIntent.setAction("dismiss");
+        dismissIntent.putExtra("ID", 2);
+        PendingIntent dismissPendingIntent =
+                PendingIntent.getBroadcast(this, 2, dismissIntent, 0);
+
+        // Create an Intent for the activity you want to start
+        Intent resultIntent = new Intent(this, HomeActivity.class);
+        // Create the TaskStackBuilder and add the intent, which inflates the back stack
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        // Get the PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(2, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notifNextWeight = new NotificationCompat.Builder(context.get(), "channel_notif_id_weight")
+                .setSmallIcon(R.drawable.ic_local_dining_black_24dp)
+                .setContentTitle("C'est l'heure de la pesée !")
+                .setContentText("N'oubliez pas de relever votre poid..!")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Il est important de controler son poid tous les jours pour s'assurer du bon déroulement de vos objectifs !"))
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDeleteIntent(getDeleteIntent())
+                .addAction(R.drawable.ic_add_alarm_black_24dp, "GOT IT !", dismissPendingIntent)
+                .addAction(R.drawable.ic_home_black_24dp, "DISMISS", dismissPendingIntent)
+                .setContentIntent(resultPendingIntent);
+
+        Log.d("APP LAUNCHER", "je suis là");
+        mNotificationManager.notify(2, notifNextWeight.build());
+    }
+
     protected PendingIntent getDeleteIntent() {
         Intent intent = new Intent(this, BroadcastCloseNotif.class);
         intent.setAction("notification_cancelled");
@@ -144,26 +193,37 @@ public class NotificationService extends Service {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("channel_notif_id_meal", name, importance);
             channel.setDescription(description);
+
+            CharSequence name2 = "channel_notif_weight";
+            String description2 = "channel_notif_description_tweight";
+            int importance2 = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel2 = new NotificationChannel("channel_notif_id_weight", name2, importance2);
+            channel2.setDescription(description2);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = context.get().getSystemService(NotificationManager.class);
             if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
+                List<NotificationChannel> channels = Arrays.asList(channel, channel2);
+                notificationManager.createNotificationChannels(channels);
             }
         }
     }
 
     private class NotificationTask extends TimerTask {
         public void run() {
+            if (firstConnexionOfDay && notifNextWeight == null){
+                createNotificationWeight();
+                firstConnexionOfDay = false;
+            }
             if (notifNextMeal == null && currentUser.getCurrentDiet().getMeals() != null) {
-                Log.d("NotificationService", currentUser.toString());
+                Log.d("APP NotificationService", currentUser.toString());
                 for (Meal mealDated : currentUser.getCurrentDiet().getMeals()) {
                     CustomDate now = new CustomDate();
                     CustomDate mealDate = mealDated.getConsommationDate();
                     mealDate.setMinutes(mealDate.getMinutes() - 5);
                     if (mealDate.isAnteriorAs(now)) {
                         mealDate.setMinutes(mealDate.getMinutes() + 5);
-                        createNotification(mealDated);
+                        createNotificationMeal(mealDated);
                         return;
                     }
                 }
