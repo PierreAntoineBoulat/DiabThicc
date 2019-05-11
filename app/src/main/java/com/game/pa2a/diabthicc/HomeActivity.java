@@ -167,7 +167,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setMeals(){
         List<Meal> mealsToDisplay = new ArrayList<>();
-        for(Meal m : CurrentUserService.currentUser.getCurrentDiet().getMeals()){
+        for(Meal m : currentUser.getCurrentDiet().getMeals()){
             if(m.getConsommationDate().dayEqualsTo(currentDay)){
                 mealsToDisplay.add(m);
             }

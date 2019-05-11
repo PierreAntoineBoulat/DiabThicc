@@ -26,7 +26,8 @@ public class CurrentUserService extends IntentService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        currentUser = (Person)intent.getSerializableExtra("User");
+        if(currentUser == null)
+            currentUser = (Person)intent.getSerializableExtra("User");
         return START_STICKY;
     }
 

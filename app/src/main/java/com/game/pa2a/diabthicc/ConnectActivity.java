@@ -34,7 +34,7 @@ public class ConnectActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_down, R.anim.nothing);
     }
 
-    public Person buildUser(){
+    public static Person buildUser(){
 
         Person mcBibi = new Person("McBiceps", "John", "Sportif Confirmé", "mc_biceps", "mc_biceps_round");
         Profile mcBibiProfile = new Profile("BibiSportif");

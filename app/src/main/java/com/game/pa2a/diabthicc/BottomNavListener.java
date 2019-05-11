@@ -8,14 +8,13 @@ import android.view.MenuItem;
 
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
+import com.game.pa2a.diabthicc.services.CurrentUserService;
 
 import java.util.ArrayList;
 
 public class BottomNavListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private Activity caller;
-    private ArrayList<Meal> meals;
-    private ArrayList<Person> profiles;
 
     public BottomNavListener(Activity caller){
         this.caller = caller;
@@ -23,6 +22,12 @@ public class BottomNavListener implements BottomNavigationView.OnNavigationItemS
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if(CurrentUserService.currentUser == null){
+            Person mcBibi = ConnectActivity.buildUser();
+            Intent iService = new Intent(caller, CurrentUserService.class);
+            iService.putExtra("User", mcBibi);
+            caller.startService(iService);
+        }
         Intent intent;
         switch (item.getItemId()) {
             case R.id.navigation_home:

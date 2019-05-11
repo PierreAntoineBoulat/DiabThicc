@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.game.pa2a.diabthicc.ConnectActivity;
 import com.game.pa2a.diabthicc.HomeActivity;
 import com.game.pa2a.diabthicc.R;
 import com.game.pa2a.diabthicc.TodayActivity;
@@ -62,6 +63,9 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         context = new WeakReference<>(getBaseContext());
+        if(CurrentUserService.currentUser == null){
+            CurrentUserService.currentUser = ConnectActivity.buildUser();
+        }
         currentUser = CurrentUserService.currentUser;
         mNotificationManager = NotificationManagerCompat.from(context.get());
         createNotificationChannel();
