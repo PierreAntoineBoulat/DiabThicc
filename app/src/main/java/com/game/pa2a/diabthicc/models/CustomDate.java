@@ -88,6 +88,10 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
         }
     }
 
+    public boolean dayEqualsTo(CustomDate o){
+        return year == o.getYear() && month == o.getMonth() && day == o.getDay();
+    }
+
     public long timeSpentInDays(CustomDate o) {
         long diff = this.getTime() - o.getTime();
         long diffDays = diff / (24 * 60 * 60 * 1000);
@@ -133,5 +137,73 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
 
     public void setMinutes(int minutes) {
         this.minutes = minutes;
+    }
+
+    public void setNextDay(){
+        this.day ++;
+        switch(month){
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                if(day > 31){
+                    day = 1;
+                    month ++;
+                }
+                break;
+            case 2:
+                if(day > (year % 4 == 0 ? 29 : 28)){
+                    day = 1;
+                    month ++;
+                }
+                break;
+            default:
+                if(day > 30){
+                    day = 1;
+                    month ++;
+                }
+                break;
+        }
+        if(month > 12){
+            month = 1;
+            year ++;
+        }
+    }
+
+    public void setPreviousDay(){
+        this.day --;
+        switch(month){
+            case 1:
+            case 2:
+            case 4:
+            case 6:
+            case 8:
+            case 9:
+            case 11:
+                if(day < 1){
+                    day = 31;
+                    month --;
+                }
+                break;
+            case 3:
+                if(day < 1){
+                    day = (year % 4 == 0 ? 29 : 28);
+                    month --;
+                }
+                break;
+            default:
+                if(day < 1){
+                    day = 30;
+                    month --;
+                }
+                break;
+        }
+        if(month < 1){
+            month = 12;
+            year --;
+        }
     }
 }

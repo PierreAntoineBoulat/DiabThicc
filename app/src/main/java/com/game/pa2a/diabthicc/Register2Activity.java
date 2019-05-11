@@ -92,54 +92,60 @@ public class Register2Activity extends FragmentActivity {
 
         /* ----------------REPAS---------------- */
 
-        Meal rpc = new Meal("Riz Poulet Curry", new CustomDate(), "Déjeuner");
+        CustomDate today = new CustomDate();
+        CustomDate yesterday = new CustomDate();
+        yesterday.setPreviousDay();
+        CustomDate tomorrow = new CustomDate();
+        tomorrow.setNextDay();
+
+        Meal rpc = new Meal("Riz Poulet Curry", today, "Déjeuner");
         rpc.addAliment(riz);
         rpc.addAliment(poulet);
         rpc.addAliment(creme);
         rpc.setImage("poulet_curry");
         rpc.setIcon("poulet_curry_round");
 
-        Meal risotto = new Meal("Risotto Champignons", new CustomDate(), "Déjeuner");
+        Meal risotto = new Meal("Risotto Champignons", today, "Déjeuner");
         risotto.addAliment(riz);
         risotto.addAliment(creme);
         risotto.addAliment(champignons);
         risotto.setImage("risotto_champignon");
         risotto.setIcon("risotto_champignon_round");
 
-        Meal hachis = new Meal("Hachis Parmentier", new CustomDate(), "Diner");
+        Meal hachis = new Meal("Hachis Parmentier", today, "Diner");
         hachis.addAliment(boeuf);
         hachis.addAliment(patates);
         hachis.addAliment(fromage);
         hachis.setImage("hachis_parmentier");
         hachis.setIcon("hachis_parmentier_round");
 
-        Meal pp = new Meal("Poulet Paprika", new CustomDate(), "Déjeuner, Diner");
+        Meal pp = new Meal("Poulet Paprika", tomorrow, "Déjeuner, Diner");
         pp.addAliment(poulet);
         pp.addAliment(tomate);
         pp.setImage("poulet_paprika");
         pp.setIcon("poulet_paprika_round");
 
-        Meal salade = new Meal("Salade Tomates Mozza", new CustomDate(), "Déjeuner");
+        Meal salade = new Meal("Salade Tomates Mozza", tomorrow, "Déjeuner");
         salade.addAliment(tomate);
         salade.addAliment(fromage);
         salade.setImage("tomate_mozza");
         salade.setIcon("tomate_mozza_round");
 
-        Meal bb = new Meal("Boeuf Bourguignon", new CustomDate(), "Diner");
+        Meal bb = new Meal("Boeuf Bourguignon", yesterday, "Diner");
         bb.addAliment(boeuf);
         bb.addAliment(tomate);
         bb.addAliment(carotte);
         bb.setImage("boeuf_bourguignon");
         bb.setIcon("boeuf_bourguignon_round");
 
-        Meal porcPatate = new Meal("Rôti de Porc à la Patate Douce", new CustomDate(), "Déjeuner, Diner");
+        Meal porcPatate = new Meal("Rôti de Porc à la Patate Douce", yesterday, "Déjeuner, Diner");
         porcPatate.addAliment(porc);
         porcPatate.addAliment(patates);
         porcPatate.addAliment(creme);
         porcPatate.setImage("roti_de_porc");
         porcPatate.setIcon("roti_de_porc_round");
 
-        Meal patesCarbonara = new Meal("Pates Carbonara", new CustomDate(), "Déjeuner");
+        Meal patesCarbonara = new Meal("Pates Carbonara", yesterday, "Déjeuner");
         patesCarbonara.addAliment(pates);
         patesCarbonara.addAliment(porc);
         patesCarbonara.addAliment(creme);

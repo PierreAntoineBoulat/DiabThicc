@@ -6,13 +6,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.game.pa2a.diabthicc.models.Aliment;
+import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.services.CurrentUserService;
@@ -29,8 +34,10 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
     private Person currentUser;
+    private RecyclerView recyclerView;
+    private CustomDate currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         currentUser = CurrentUserService.currentUser;
+        currentDay = new CustomDate();
 
         initData();
+        initMeals();
 
         bottomNavigationView = findViewById(R.id.navigationViewHome);
         Menu menu = bottomNavigationView.getMenu();
@@ -65,10 +74,12 @@ public class HomeActivity extends AppCompatActivity {
         int carbsConso = 0, carbsMax = 0;
 
         for(Meal m : lMeals){
-            for(Aliment a : m.getAliments()){
-                protConso += a.getDiet().getProteinIntake();
-                fatConso += a.getDiet().getFatIntake();
-                carbsConso += a.getDiet().getCarbsIntake();
+            if(m.getConsommationDate().dayEqualsTo(currentDay)) {
+                for (Aliment a : m.getAliments()) {
+                    protConso += a.getDiet().getProteinIntake();
+                    fatConso += a.getDiet().getFatIntake();
+                    carbsConso += a.getDiet().getCarbsIntake();
+                }
             }
         }
 
@@ -79,8 +90,6 @@ public class HomeActivity extends AppCompatActivity {
         float pcProt = (float) protConso / protMax * 100;
         float pcFat = (float) fatConso / fatMax * 100;
         float pcCarbs = (float) carbsConso / carbsMax * 100;
-
-        Log.d("STATS", pcProt + " - " + pcFat + " - " + pcCarbs);
 
         ProgressBar pbProt = findViewById(R.id.progressBarProt);
         ProgressBar pbFat = findViewById(R.id.progressBarFat);
@@ -119,9 +128,59 @@ public class HomeActivity extends AppCompatActivity {
         TextView pcConso = findViewById(R.id.pcConso);
         TextView pcLeft = findViewById(R.id.pcLeft);
 
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
+
         pcConso.setText(String.format("%s %%", (int)Math.round(consommes)));
         pcLeft.setText(String.format("%s %%", (int)Math.round(restants)));
+    }
 
+    private void initMeals(){
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewHome);
+
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        Button dayBeforeButton = findViewById(R.id.buttonPreviousDay);
+        Button dayAfterButton = findViewById(R.id.buttonNextDay);
+        dayBeforeButton.setText("<<");
+
+        dayBeforeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentDay.setPreviousDay();
+                setMeals();
+                initData();
+            }
+        });
+
+        dayAfterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentDay.setNextDay();
+                setMeals();
+                initData();
+            }
+        });
+
+        setMeals();
+    }
+
+    private void setMeals(){
+        List<Meal> mealsToDisplay = new ArrayList<>();
+        for(Meal m : CurrentUserService.currentUser.getCurrentDiet().getMeals()){
+            if(m.getConsommationDate().dayEqualsTo(currentDay)){
+                mealsToDisplay.add(m);
+            }
+        }
+
+        RecyclerViewAdapterHome adapter = new RecyclerViewAdapterHome(mealsToDisplay);
+        recyclerView.setAdapter(adapter);
+
+        TextView dateDisplay = findViewById(R.id.textViewCurrentDay);
+        dateDisplay.setText(currentDay.dayFormat());
     }
 
 }
