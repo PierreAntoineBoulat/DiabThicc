@@ -3,6 +3,7 @@ package com.game.pa2a.diabthicc.models;
 import android.util.Pair;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,14 +18,14 @@ public class Person implements Serializable {
     // We assume 0 is female, 1 is male
     private boolean sexe;
 
-    private ArrayList<Pair<CustomDate, Double>> archivedWeights = new ArrayList<>(); // All new weights must send the old weight into the archive
+    private HashMap<CustomDate, Double> archivedWeights = new HashMap<>(); // All new weights must send the old weight into the archive
 
     private CustomDate lastModified; // date of last modification of weight
     private double height, weight;
     private int age;
     private Profile profil;
 
-    List<Pair<CustomDate, Diet>> archivedDiets = new ArrayList<>();
+    HashMap<CustomDate, Diet> archivedDiets = new HashMap<>();
 
     private MealsDaily currentDiet;
     private ArrayList<MealsDaily> pastDiets;
@@ -111,7 +112,7 @@ public class Person implements Serializable {
         if(lastModified.isToday()) {
             this.weight = weight;
         } else {
-            archivedWeights.add(new Pair<>(lastModified, this.weight));
+            archivedWeights.put(lastModified, this.weight);
             lastModified = new CustomDate();
             this.weight = weight;
         }
@@ -149,7 +150,7 @@ public class Person implements Serializable {
         this.pastDiets = pastDiets;
     }
 
-    public ArrayList<Pair<CustomDate, Double>> getArchivedWeights() {
+    public HashMap<CustomDate, Double> getArchivedWeights() {
         return archivedWeights;
     }
 

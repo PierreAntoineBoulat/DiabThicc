@@ -2,13 +2,15 @@ package com.game.pa2a.diabthicc.models;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class CustomDate implements Comparable<CustomDate>, Serializable {
     int year, month, day, hours, minutes;
+    Calendar calendar;
 
     public CustomDate(int year, int month, int day, int hours, int minutes) {
+        calendar = new GregorianCalendar(year, month, day, hours, minutes);
         this.year = year;
         this.month = month;
         this.day = day;
@@ -17,20 +19,27 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
     }
 
     public CustomDate(){
-        Calendar dateTime = new GregorianCalendar();
-        year = dateTime.get(Calendar.YEAR);
-        month = dateTime.get(Calendar.MONTH)+1;
-        day = dateTime.get(Calendar.DAY_OF_MONTH);
-        hours = dateTime.get(Calendar.HOUR_OF_DAY);
-        minutes = dateTime.get(Calendar.MINUTE);
+        calendar =  new GregorianCalendar();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH)+1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        hours = calendar.get(Calendar.HOUR_OF_DAY);
+        minutes = calendar.get(Calendar.MINUTE);
     }
 
-    public CustomDate(GregorianCalendar dateTime){
-        year = dateTime.get(Calendar.YEAR);
-        month = dateTime.get(Calendar.MONTH)+1;
-        day = dateTime.get(Calendar.DAY_OF_MONTH);
-        hours = dateTime.get(Calendar.HOUR_OF_DAY);
-        minutes = dateTime.get(Calendar.MINUTE);
+    public CustomDate(GregorianCalendar time){
+        calendar = time;
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH)+1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        hours = calendar.get(Calendar.HOUR_OF_DAY);
+        minutes = calendar.get(Calendar.MINUTE);
+    }
+
+    public static CustomDate build(long time) {
+        GregorianCalendar date = new GregorianCalendar();
+        date.setTime(new Date(time));
+        return new CustomDate(date);
     }
 
     public String dayFormat(){
@@ -48,6 +57,14 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
     public boolean isToday(){
         CustomDate today = new CustomDate();
         return day == today.day && month == today.month && year == today.year;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public long getTime() {
+        return calendar.getTime().getTime();
     }
 
     @Override
@@ -69,6 +86,13 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
         }else{
             return year - o.year;
         }
+    }
+
+    public long timeSpentInDays(CustomDate o) {
+        long diff = this.getTime() - o.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+        return diffDays;
+
     }
 
     public int getYear() {

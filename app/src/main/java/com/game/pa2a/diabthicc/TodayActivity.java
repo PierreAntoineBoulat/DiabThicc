@@ -98,4 +98,9 @@ public class TodayActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickCamera(View view) {
+        Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
+    }
+
 }

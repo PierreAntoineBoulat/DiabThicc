@@ -15,6 +15,7 @@ public class Profile implements Serializable {
 
     public Profile(String name) {
         this.name=name;
+        this.objectif = new Diet();
     }
 
     public Diet getObjectif() {
@@ -29,4 +30,27 @@ public class Profile implements Serializable {
         this.name = name;
     }
 
+    public void setMaxProt(int prot) {
+        objectif.setProteinIntake(prot);
+    }
+
+    public void setMaxLipides(int lipides) {
+        objectif.setFatIntake(lipides);
+    }
+
+    public void setMaxGlucides(int carbs) {
+        objectif.setCarbsIntake(carbs);
+    }
+
+    public int getMaxProt() {
+        return objectif.getProteinIntake();
+    }
+
+    public int getMaxLipides() {
+        return objectif.getFatIntake();
+    }
+
+    public int getMaxGlucides() {
+        return objectif.getCarbsIntake();
+    }
 }

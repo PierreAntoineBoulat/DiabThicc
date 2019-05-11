@@ -14,6 +14,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
+import com.game.pa2a.diabthicc.models.Aliment;
+import com.game.pa2a.diabthicc.models.CustomDate;
+import com.game.pa2a.diabthicc.models.Diet;
+import com.game.pa2a.diabthicc.models.Meal;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -111,6 +115,18 @@ public class CameraActivity extends AppCompatActivity {
                             Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(1000);
                             txtResult.setText(qrcodes.valueAt(0).displayValue);
+                            Intent intent = new Intent(CameraActivity.this, AddMealActivity.class);
+                            Meal mealCamera = new Meal("cameraMeal", new CustomDate());
+                            Aliment porc = new Aliment("Porc", new Diet(30, 0, 4));
+                            Aliment pates = new Aliment("Pates", new Diet(12, 4, 67));
+                            Aliment creme = new Aliment("Creme fraiche", new Diet(0, 12, 0));
+                            mealCamera.addAliment(pates);
+                            mealCamera.addAliment(porc);
+                            mealCamera.addAliment(creme);
+                            mealCamera.setImage("pate_carbonara");
+                            mealCamera.setIcon("pate_carbonara_round");
+                            intent.putExtra("meal", new Meal("cameraMeal", new CustomDate()));
+                            startActivity(intent);
                         }
                     });
                 }

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 
+import com.game.pa2a.diabthicc.models.Aliment;
 import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Meal;
 
@@ -26,6 +27,16 @@ public class AddMealActivity extends AppCompatActivity {
         final CalendarView myCalendar = findViewById(R.id.calendarView);
 
         Button validMeal = findViewById(R.id.buttonValidMeal);
+
+        Meal cameraMeal;
+        if((cameraMeal = (Meal)getIntent().getSerializableExtra("cameraMeal")) != null) {
+            editText.setText(cameraMeal.getName());
+
+            // TODO : Need to add aliments to the selection
+            for (Aliment aliment : cameraMeal.getAliments()) {
+
+            }
+        }
         validMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
