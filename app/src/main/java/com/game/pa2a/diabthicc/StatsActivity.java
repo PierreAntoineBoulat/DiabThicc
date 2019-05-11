@@ -4,9 +4,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.game.pa2a.diabthicc.MPclasses.DateXAxisFormat;
 import com.game.pa2a.diabthicc.models.CustomDate;
@@ -29,10 +32,30 @@ public class StatsActivity extends AppCompatActivity {
 
     Person currentUser;
 
+    Button weight7D;
+    Button weight14D;
+
+    Button changeWeight;
+
+    TextView actualWeight;
+
+    LineChart chart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
+
+        currentUser = CurrentUserService.currentUser;
+
+        weight7D = findViewById(R.id.weight7d);
+        weight14D = findViewById(R.id.weight14d);
+
+        changeWeight = findViewById(R.id.updateWeight);
+
+        actualWeight = findViewById(R.id.aujdPoids);
+
+        actualWeight.setText("Aujourd'hui, vous faites " + currentUser.getWeight() + " kg.");
 
         bottomNavigationView = findViewById(R.id.navigationViewStats);
         Menu menu = bottomNavigationView.getMenu();
@@ -43,19 +66,14 @@ public class StatsActivity extends AppCompatActivity {
                 new BottomNavListener(this)
         );
 
-        LineChart chart = findViewById(R.id.WeightChart);
+        chart = findViewById(R.id.WeightChart);
 
-        List<Entry> entries = new ArrayList<Entry>();
-
-        currentUser = CurrentUserService.currentUser;
+        List<Entry> entries = new ArrayList<>();
 
         HashMap<CustomDate, Double> allWeights = currentUser.getArchivedWeights();
-
-        // Only for demo purposes
-        CustomDate today = new CustomDate();
-        CustomDate yesterday = new CustomDate(today.getYear(), today.getMonth()-1, today.getDay() - 1, today.getHours(), today.getMinutes());
-        allWeights.put(yesterday, 40.0);
-        allWeights.put(today, 45.0);
+        if(currentUser.getWeight() > 0.0){ // => if not null
+            allWeights.put(currentUser.getLastModified(), currentUser.getWeight());
+        }
 
         for (Map.Entry<CustomDate, Double> entry : allWeights.entrySet()) {
             CustomDate key = entry.getKey();
@@ -85,6 +103,42 @@ public class StatsActivity extends AppCompatActivity {
         lineData.setDrawValues(false);
         chart.setData(lineData);
         chart.invalidate(); // refresh
+
+
+        // TODO :  NOT USABLE RN, moveViewToX fait bugger le linechart...
+        /*
+        weight7D.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDate cd = new CustomDate();
+                long time = cd.getTime();
+                time-= (1000 * 24 * 60 * 60) * 7; // Today - 7 days
+                //chart.moveViewToX(time);
+                chart.invalidate();
+                Log.d("test", "onClick: ");
+            }
+        });
+        weight14D.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDate cd = new CustomDate();
+                long time = cd.getTime();
+                time-= (1000 * 24 * 60 * 60) * 14; // Today - 14 days
+                //chart.moveViewToX(time);
+                chart.invalidate();
+            }
+        });
+        */
+
+        // TODO : Le poids n'est pas actualisé après modification par wd. Si qqun a une idée?
+        changeWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WeightDialog wd = new WeightDialog(StatsActivity.this);
+                wd.show();
+            }
+        });
+
     }
 
 }
