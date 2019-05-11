@@ -1,6 +1,5 @@
 package com.game.pa2a.diabthicc;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +32,6 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
     private Person currentUser;
     private RecyclerView recyclerView;
     private CustomDate currentDay;
@@ -50,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         initData();
         initMeals();
 
-        bottomNavigationView = findViewById(R.id.navigationViewHome);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigationViewHome);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
@@ -176,7 +173,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
-        RecyclerViewAdapterHome adapter = new RecyclerViewAdapterHome(mealsToDisplay);
+        RecyclerViewAdapterHome adapter = new RecyclerViewAdapterHome(this, mealsToDisplay);
         recyclerView.setAdapter(adapter);
 
         TextView dateDisplay = findViewById(R.id.textViewCurrentDay);
