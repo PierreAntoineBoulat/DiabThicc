@@ -180,4 +180,17 @@ public class HomeActivity extends AppCompatActivity {
         dateDisplay.setText(currentDay.dayFormat());
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("currentDate", currentDay);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        currentDay = (CustomDate) outState.getSerializable("currentDate");
+        initData();
+        initMeals();
+    }
 }
