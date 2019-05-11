@@ -1,10 +1,8 @@
 package com.game.pa2a.diabthicc.models;
 
-import android.util.Pair;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Person class, where the user's personal information are stored.
@@ -40,7 +38,7 @@ public class Person implements Serializable {
         this.name = name;
         this.firstName = firstName;
         this.profil = new Profile(profil);
-        currentDiet = new MealsDaily();
+        currentDiet = new MealsDaily();// Only for demo purposes
     }
 
     public Person(String name, String firstName, String profil, String image, String icon) {
@@ -50,6 +48,13 @@ public class Person implements Serializable {
         this.icon = icon;
         this.profil = new Profile(profil);
         currentDiet = new MealsDaily();
+        CustomDate today = new CustomDate();
+        long day = 24 * 60 * 60 * 1000;
+        CustomDate yesterday = new CustomDate(today.getYear(), today.getMonth()-1, today.getDay() - 1, today.getHours(), today.getMinutes());
+        archivedWeights.put(yesterday, 40.0);
+        archivedWeights.put(CustomDate.build(today.getTime() - (day * 5)), 38.0);
+        archivedWeights.put(CustomDate.build(today.getTime() - (day * 9)), 36.0);
+        archivedWeights.put(CustomDate.build(today.getTime() - (day * 13)), 34.0);
     }
 
     public void setImage(String image) {
@@ -109,13 +114,16 @@ public class Person implements Serializable {
     }
 
     public void setWeight(double weight) {
+        if(lastModified == null) {
+            lastModified = new CustomDate();
+        }
         if(lastModified.isToday()) {
             this.weight = weight;
-        } else {
+        } /*else {
             archivedWeights.put(lastModified, this.weight);
             lastModified = new CustomDate();
             this.weight = weight;
-        }
+        }*/
     }
 
     public int getAge() {
@@ -156,6 +164,10 @@ public class Person implements Serializable {
 
     public void addPastDiets(ArrayList<MealsDaily> pastDiets) {
         this.pastDiets.addAll(pastDiets);
+    }
+
+    public CustomDate getLastModified() {
+        return lastModified;
     }
 
     @Override

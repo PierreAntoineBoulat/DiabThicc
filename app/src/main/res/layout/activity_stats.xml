@@ -35,19 +35,41 @@
         app:layout_constraintStart_toStartOf="@+id/aujdPoids"
         app:layout_constraintTop_toBottomOf="@+id/aujdPoids" />
 
+    <Button
+        android:id="@+id/weight7d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="7 Days"
+        app:layout_constraintEnd_toStartOf="@+id/weight14d"
+        app:layout_constraintStart_toStartOf="@+id/updateWeight"
+        app:layout_constraintTop_toBottomOf="@+id/updateWeight" />
+
+    <Button
+        android:id="@+id/weight14d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="14 Days"
+        app:layout_constraintEnd_toEndOf="@+id/updateWeight"
+        app:layout_constraintTop_toBottomOf="@+id/updateWeight" />
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/WeightChart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/navigationViewStats"
         app:layout_constraintEnd_toEndOf="@+id/updateWeight"
         app:layout_constraintEnd_toStartOf="@+id/navigationViewStats"
         app:layout_constraintStart_toStartOf="@+id/updateWeight"
-        app:layout_constraintTop_toBottomOf="@+id/updateWeight">
+        app:layout_constraintTop_toBottomOf="@+id/weight14d">
 
     </com.github.mikephil.charting.charts.LineChart>
 
