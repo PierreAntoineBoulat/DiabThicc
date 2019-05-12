@@ -1,5 +1,6 @@
 package com.game.pa2a.diabthicc;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -20,8 +21,10 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.EntryXComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +51,8 @@ public class StatsActivity extends AppCompatActivity {
 
         currentUser = CurrentUserService.currentUser;
 
-        weight7D = findViewById(R.id.weight7d);
-        weight14D = findViewById(R.id.weight14d);
+        //weight7D = findViewById(R.id.weight7d);
+        //weight14D = findViewById(R.id.weight14d);
 
         changeWeight = findViewById(R.id.updateWeight);
 
@@ -95,6 +98,8 @@ public class StatsActivity extends AppCompatActivity {
         xAxis.setGranularityEnabled(true);
         xAxis.setAvoidFirstLastClipping(true);
 
+        Collections.sort(entries, new EntryXComparator());
+
         LineDataSet dataSet = new LineDataSet(entries, "Poids (en kg)"); // add entries to dataset
         dataSet.setColor(Color.BLUE);
         dataSet.setValueTextColor(Color.RED); // styling, ...
@@ -136,9 +141,43 @@ public class StatsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 WeightDialog wd = new WeightDialog(StatsActivity.this);
                 wd.show();
+                wd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        refreshWeight();
+                    }
+                });
             }
         });
 
+    }
+
+    private void refreshWeight() {
+        actualWeight.setText("Aujourd'hui, vous faites " + currentUser.getWeight() + " kg.");
+
+        List<Entry> entries = new ArrayList<>();
+
+        HashMap<CustomDate, Double> allWeights = currentUser.getArchivedWeights();
+        if(currentUser.getWeight() > 0.0){ // => if not null
+            allWeights.put(currentUser.getLastModified(), currentUser.getWeight());
+        }
+
+        for (Map.Entry<CustomDate, Double> entry : allWeights.entrySet()) {
+            CustomDate key = entry.getKey();
+            Double value = entry.getValue();
+            entries.add(new Entry(key.getTime(), value.floatValue()));
+        }
+
+        Collections.sort(entries, new EntryXComparator());
+
+        LineDataSet dataSet = new LineDataSet(entries, "Poids (en kg)"); // add entries to dataset
+        dataSet.setColor(Color.BLUE);
+        dataSet.setValueTextColor(Color.RED); // styling, ...
+
+        LineData lineData = new LineData(dataSet);
+        lineData.setDrawValues(false);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
     }
 
 }

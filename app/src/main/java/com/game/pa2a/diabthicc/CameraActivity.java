@@ -28,7 +28,7 @@ import java.io.IOException;
 public class CameraActivity extends AppCompatActivity {
 
     SurfaceView cameraPreview;
-    TextView txtResult;
+    //TextView txtResult;
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
     final int RequestCameraPermissionID = 1001;
@@ -62,7 +62,7 @@ public class CameraActivity extends AppCompatActivity {
         */
 
         cameraPreview = (SurfaceView) findViewById(R.id.cameraPreview);
-        txtResult = (TextView) findViewById(R.id.txtResult);
+        //txtResult = (TextView) findViewById(R.id.txtResult);
 
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.EAN_13)
@@ -108,29 +108,24 @@ public class CameraActivity extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> qrcodes = detections.getDetectedItems();
                 if(qrcodes.size() != 0) {
-                    txtResult.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Create vibrate
-                            Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                            vibrator.vibrate(1000);
-                            txtResult.setText(qrcodes.valueAt(0).displayValue);
-                            Intent intent = new Intent(CameraActivity.this, AddMealActivity.class);
-                            Meal mealCamera = new Meal("cameraMeal", new CustomDate());
-                            Aliment porc = new Aliment("Porc", new Diet(30, 0, 4));
-                            Aliment pates = new Aliment("Pates", new Diet(12, 4, 67));
-                            Aliment creme = new Aliment("Creme fraiche", new Diet(0, 12, 0));
-                            mealCamera.addAliment(pates);
-                            mealCamera.addAliment(porc);
-                            mealCamera.addAliment(creme);
-                            mealCamera.setImage("pate_carbonara");
-                            mealCamera.setIcon("pate_carbonara_round");
-                            intent.putExtra("meal", new Meal("cameraMeal", new CustomDate()));
-                            startActivity(intent);
-                        }
-                    });
+                    //Create vibrate
+                    Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(1000);
+                    //txtResult.setText(qrcodes.valueAt(0).displayValue);
+                    Intent intent = new Intent(CameraActivity.this, AddMealActivity.class);
+                    Meal mealCamera = new Meal("cameraMeal", new CustomDate());
+                    Aliment porc = new Aliment("Porc", new Diet(30, 0, 4));
+                    Aliment pates = new Aliment("Pates", new Diet(12, 4, 67));
+                    Aliment creme = new Aliment("Creme fraiche", new Diet(0, 12, 0));
+                    mealCamera.addAliment(pates);
+                    mealCamera.addAliment(porc);
+                    mealCamera.addAliment(creme);
+                    mealCamera.setImage("pate_carbonara");
+                    mealCamera.setIcon("pate_carbonara_round");
+                    intent.putExtra("meal", mealCamera);
+                    startActivity(intent);
+                    }
                 }
-            }
         });
     }
 

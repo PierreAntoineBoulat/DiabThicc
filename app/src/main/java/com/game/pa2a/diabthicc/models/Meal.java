@@ -15,7 +15,7 @@ public class Meal implements Serializable {
 
     String type;
 
-    private List<Aliment> aliments;
+    private ArrayList<Aliment> aliments;
 
     private Diet mealDiet;
 
@@ -88,7 +88,7 @@ public class Meal implements Serializable {
         return name;
     }
 
-    public List<Aliment> getAliments() { return aliments;}
+    public ArrayList<Aliment> getAliments() { return aliments;}
 
     public Diet getDiet() {
         return mealDiet;

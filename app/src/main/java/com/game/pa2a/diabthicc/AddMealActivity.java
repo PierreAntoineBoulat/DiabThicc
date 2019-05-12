@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -40,15 +41,6 @@ public class AddMealActivity extends AppCompatActivity {
 
         Button validMeal = findViewById(R.id.buttonValidMeal);
 
-        Meal cameraMeal;
-        if((cameraMeal = (Meal)getIntent().getSerializableExtra("cameraMeal")) != null) {
-            editText.setText(cameraMeal.getName());
-
-            // TODO : Need to add aliments to the selection
-            for (Aliment aliment : cameraMeal.getAliments()) {
-
-            }
-        }
         validMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,8 +68,16 @@ public class AddMealActivity extends AppCompatActivity {
 
         initDataAliment();
 
-        initRecyclerView(mAliments);
+        // Si on reçoit un intent de la caméra
+        Meal cameraMeal;
+        if((cameraMeal = (Meal)getIntent().getSerializableExtra("meal")) != null) {
+            editText.setText(cameraMeal.getName());
 
+            mAliments = cameraMeal.getAliments();
+            Log.d("meal", "size :" +mAliments.size());
+        }
+
+        initRecyclerView(mAliments);
     }
 
     @Override

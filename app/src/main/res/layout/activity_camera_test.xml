@@ -4,25 +4,11 @@
     android:id="@+id/activity_camera_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
     tools:context=".MainActivity">
 
     <SurfaceView
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
-        android:layout_height="480px"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"/>
-
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:layout_below="@+id/cameraPreview"
-        android:layout_marginTop="20dp"
-        android:text=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </RelativeLayout>
