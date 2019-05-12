@@ -1,6 +1,8 @@
 package com.game.pa2a.diabthicc;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.game.pa2a.diabthicc.models.Aliment;
 import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.MealsDaily;
@@ -25,7 +30,6 @@ public class TodayActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     CustomDate currentDate;
-    private ArrayList<Meal> mMeals = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class TodayActivity extends AppCompatActivity {
                 }
 
                 initRecyclerView(dayMeals);
+                updateDayObjectif(dayMeals, currentUser);
             }
         });
 
@@ -83,6 +88,7 @@ public class TodayActivity extends AppCompatActivity {
                 }
 
                 initRecyclerView(dayMeals);
+                updateDayObjectif(dayMeals, currentUser);
             }
         });
 
@@ -102,6 +108,7 @@ public class TodayActivity extends AppCompatActivity {
             }
         }
         initRecyclerView(dayMeals);
+        updateDayObjectif(dayMeals, currentUser);
 
     }
 
@@ -117,6 +124,61 @@ public class TodayActivity extends AppCompatActivity {
     public void onClickCamera(View view) {
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
+    }
+
+    public void updateDayObjectif(ArrayList<Meal> dealMeals, Person currentUser){
+        int dailyDietGlu = currentUser.getProfil().getMaxGlucides();
+        int dailyDietProt = currentUser.getProfil().getMaxProt();
+        int dailyDietLip = currentUser.getProfil().getMaxLipides();
+
+        int actualGlu = 0;
+        int actualProt = 0;
+        int actualLip = 0;
+
+        for(Meal meal : dealMeals) {
+            for(Aliment aliment : meal.getAliments()){
+                actualGlu+= aliment.getDiet().getFatIntake();
+                actualProt+= aliment.getDiet().getProteinIntake();
+                actualLip+=aliment.getDiet().getCarbsIntake();
+            }
+        }
+        float moyGlu = (float) actualGlu / dailyDietGlu * 100;
+        float moyLip = (float) actualLip / dailyDietLip * 100;
+        float moyProt = (float) actualProt / dailyDietProt * 100;
+
+        float result = (moyGlu+moyLip+moyProt)/3;
+        ProgressBar progressBar = findViewById(R.id.progressBarMealDay);
+
+        progressBar.setProgress((int)result);
+        TextView textViewLip = findViewById(R.id.textViewLip);
+        TextView textViewGlu =findViewById(R.id.textViewGlu);
+        TextView textViewProt = findViewById(R.id.textViewProt);
+
+        textViewLip.setText((int)moyLip+"%");
+        textViewGlu.setText((int)moyGlu+"%");
+        textViewProt.setText((int)moyProt+"%");
+
+        TextView textViewMood = findViewById(R.id.textViewMood);
+        ImageView mood = findViewById(R.id.imageViewMood);
+        if(result<=66){
+            mood.setImageResource(R.drawable.sad_mood);
+            textViewMood.setText("Insuffisant...");
+            textViewMood.setTextColor(Color.RED);
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+        }
+        if(66<result && result<=90){
+            mood.setImageResource(R.drawable.good_mood);
+            textViewMood.setText("Correct");
+            textViewMood.setTextColor(Color.MAGENTA);
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.MAGENTA));
+        }
+        if(90<result){
+            mood.setImageResource(R.drawable.excellent_mood);
+            textViewMood.setText("Bravo !");
+            textViewMood.setTextColor(Color.GREEN);
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));;
+        }
+
     }
 
 }
