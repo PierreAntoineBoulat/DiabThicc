@@ -20,7 +20,6 @@ import com.game.pa2a.diabthicc.services.CurrentUserService;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TodayActivity extends AppCompatActivity {
 
