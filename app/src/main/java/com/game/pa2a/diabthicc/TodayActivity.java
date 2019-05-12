@@ -16,7 +16,6 @@ import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.MealsDaily;
 import com.game.pa2a.diabthicc.models.Person;
-import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.services.CurrentUserService;
 
 

@@ -58,12 +58,14 @@ public class AddMealActivity extends AppCompatActivity {
 
                 GregorianCalendar calendar = new GregorianCalendar();
                 calendar.setTimeInMillis(myDate);
-                CustomDate myCustomDate = new CustomDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
+                CustomDate myCustomDate = new CustomDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH),simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
 
-                Meal myNewMeal = new Meal(editText.getText().toString(),myCustomDate);
+                Meal myNewMeal = new Meal(editText.getText().toString(),myCustomDate, getType(myCustomDate));
                 for (Aliment aliment : mAliments){
                     myNewMeal.addAliment(aliment);
                 }
+                myNewMeal.setIcon("default_meal_round");
+                myNewMeal.setImage("default_meal");
 
                 CurrentUserService.currentUser.getCurrentDiet().addMeal(myNewMeal);
 
@@ -123,5 +125,21 @@ public class AddMealActivity extends AppCompatActivity {
         recyclerViewAliment.setLayoutManager(layoutManagerMeal);
         RecyclerViewAdapterAliment recyclerViewAdapterAliment = new RecyclerViewAdapterAliment(this, mAliments);
         recyclerViewAliment.setAdapter(recyclerViewAdapterAliment);
+    }
+
+    private String getType(CustomDate date){
+        int hour = date.getHours();
+        if(hour <12){
+            return "Petit Dejeuner";
+        }
+        if(hour<15){
+            return "Dejeuner";
+        }
+        if(hour<18){
+            return "Gouter";
+        }
+        else{
+            return "Diner";
+        }
     }
 }
