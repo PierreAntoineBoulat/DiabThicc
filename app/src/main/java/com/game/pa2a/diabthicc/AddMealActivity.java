@@ -3,6 +3,8 @@ package com.game.pa2a.diabthicc;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -11,16 +13,18 @@ import android.widget.TimePicker;
 
 import com.game.pa2a.diabthicc.models.Aliment;
 import com.game.pa2a.diabthicc.models.CustomDate;
+import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
-import com.game.pa2a.diabthicc.models.MealsDaily;
-import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.services.CurrentUserService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
 public class AddMealActivity extends AppCompatActivity {
+
+    ArrayList<Aliment> mAliments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +61,36 @@ public class AddMealActivity extends AppCompatActivity {
                 CustomDate myCustomDate = new CustomDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
 
                 Meal myNewMeal = new Meal(editText.getText().toString(),myCustomDate);
+                for (Aliment aliment : mAliments){
+                    myNewMeal.addAliment(aliment);
+                }
 
-                Person currentUser = CurrentUserService.currentUser;
-                MealsDaily myDiet = currentUser.getCurrentDiet();
-                myDiet.addMeal(myNewMeal);
+                CurrentUserService.currentUser.getCurrentDiet().addMeal(myNewMeal);
 
-                myCalendar(myNewMeal, calendar, myHour, myMinutes);
-
-                //Intent endIntent = new Intent(AddMealActivity.this,TodayActivity.class);
-                //startActivity(endIntent);
+                Intent firstIntent = myCalendar(myNewMeal, calendar, myHour, myMinutes);
+                startActivityForResult(firstIntent,2);
             }
         });
+
+        initDataAliment();
+
+        initRecyclerView(mAliments);
+
     }
 
-    private void myCalendar(Meal myNewMeal, Calendar calendar, int hour, int minute){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            Intent endIntent = new Intent(AddMealActivity.this,TodayActivity.class);
+            startActivity(endIntent);
+        }
+    }
+
+    private Intent myCalendar(Meal myNewMeal, Calendar calendar, int hour, int minute){
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
         int changement = ((hour-calendar.get(Calendar.HOUR_OF_DAY))*60*60*1000)+((minute-calendar.get(Calendar.MINUTE))*60*1000);
@@ -79,6 +99,29 @@ public class AddMealActivity extends AppCompatActivity {
         intent.putExtra("rrule", "FREQ=YEARLY");
         intent.putExtra("endTime", calendar.getTimeInMillis()+changement+60*60*1000);
         intent.putExtra("title", myNewMeal.getName());
-        startActivity(intent);
+        return intent;
+    }
+
+    private void initDataAliment(){
+        Aliment cafe = new Aliment("Cafe", new Diet(10,3,8));
+        Aliment jusO = new Aliment("Jus d'Orange", new Diet(15,8,12));
+        Aliment croissant = new Aliment("Croissant", new Diet(8,20,18));
+
+        Aliment poulet = new Aliment("Poulet", new Diet(31, 0, 5));
+        Aliment boeuf = new Aliment("Boeuf", new Diet(28, 0, 15));
+        Aliment porc = new Aliment("Porc", new Diet(30, 0, 4));
+
+        mAliments.add(cafe);
+        mAliments.add(jusO);
+        mAliments.add(croissant);
+    }
+
+    private void initRecyclerView(ArrayList<Aliment> mAliments) {
+
+        LinearLayoutManager layoutManagerMeal = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView recyclerViewAliment = findViewById(R.id.recyclerViewAliment);
+        recyclerViewAliment.setLayoutManager(layoutManagerMeal);
+        RecyclerViewAdapterAliment recyclerViewAdapterAliment = new RecyclerViewAdapterAliment(this, mAliments);
+        recyclerViewAliment.setAdapter(recyclerViewAdapterAliment);
     }
 }

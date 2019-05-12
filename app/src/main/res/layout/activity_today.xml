@@ -51,7 +51,6 @@
         android:id="@+id/buttonAddMeal"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="20dp"
@@ -59,35 +58,35 @@
         android:text="Ajouter un repas"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.548"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTodayMeal" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTodayMeal"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/buttonScanMeal"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
         android:onClick="onClickCamera"
         android:text="Scanner un repas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAddMeal"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddMeal" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTodayMeal" />
 
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="104dp"
-        android:layout_height="34dp"
+        android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:gravity="center_horizontal"
         android:text="TextView"
         android:textSize="15sp"
-        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -102,33 +101,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
 
-    <ImageButton
-        android:id="@+id/imageButtonPreviousDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/ButtonNextDate"
+        android:layout_width="70dp"
+        android:layout_height="41dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewTodayMeal"
+        android:text=">>"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toEndOf="@+id/textViewDate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/ButtonPreviousDate"
+        android:layout_width="66dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="aa"
         app:layout_constraintEnd_toStartOf="@+id/textViewDate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.235"
-        app:srcCompat="@android:drawable/arrow_up_float" />
-
-    <ImageButton
-        android:id="@+id/imageButtonNextDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/arrow_down_float" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
