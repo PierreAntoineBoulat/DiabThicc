@@ -48,6 +48,8 @@ public class Person implements Serializable {
         this.icon = icon;
         this.profil = new Profile(profil);
         currentDiet = new MealsDaily();
+
+        // For demo purposes only
         CustomDate today = new CustomDate();
         long day = 24 * 60 * 60 * 1000;
         CustomDate yesterday = new CustomDate(today.getYear(), today.getMonth()-1, today.getDay() - 1, today.getHours(), today.getMinutes());
