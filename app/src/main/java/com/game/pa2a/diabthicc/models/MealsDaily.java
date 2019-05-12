@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MealsDaily implements Serializable {
 
-    List<Meal> meals;
+    ArrayList<Meal> meals;
 
     Diet dailyDiet;
 
@@ -21,7 +21,7 @@ public class MealsDaily implements Serializable {
         }
     }
 
-    public List<Meal> getMeals(){
+    public ArrayList<Meal> getMeals(){
         return meals;
     }
 }

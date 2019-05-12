@@ -75,7 +75,7 @@ public class ShareActivity extends AppCompatActivity {
         recyclerViewProfile.setAdapter(recyclerViewAdapterProfile);
 
         LinearLayoutManager layoutManagerMeal = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerViewMeal = findViewById(R.id.recyclerViewMeal);
+        RecyclerView recyclerViewMeal = findViewById(R.id.recyclerViewTodayMeal);
         recyclerViewMeal.setLayoutManager(layoutManagerMeal);
         RecyclerViewAdapterMeal recyclerViewAdapterMeal = new RecyclerViewAdapterMeal(this, lMeals);
         recyclerViewMeal.setAdapter(recyclerViewAdapterMeal);

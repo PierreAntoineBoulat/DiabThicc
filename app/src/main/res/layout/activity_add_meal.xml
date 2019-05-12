@@ -9,28 +9,15 @@
     <TextView
         android:id="@+id/textViewAliment"
         android:layout_width="112dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="192dp"
         android:text="Aliments :"
         app:layout_constraintBottom_toTopOf="@+id/buttonValidMeal"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtonAliment"
-        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDate"
-        app:layout_constraintVertical_bias="0.008" />
-
-    <TextView
-        android:id="@+id/textViewDate"
-        android:layout_width="79dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
-        android:text="Date :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewName"
+        app:layout_constraintVertical_bias="0.963" />
 
     <TextView
         android:id="@+id/textView9"
@@ -72,37 +59,77 @@
         android:layout_width="207dp"
         android:layout_height="298dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="192dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.68"
-        app:layout_constraintStart_toEndOf="@+id/textViewDate"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
     <Button
         android:id="@+id/buttonValidMeal"
         android:layout_width="158dp"
         android:layout_height="51dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="596dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="36dp"
         android:text="Ajouter"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <ImageButton
         android:id="@+id/imageButtonAliment"
-        android:layout_width="wrap_content"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="196dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonValidMeal"
+        android:layout_marginEnd="192dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        app:layout_constraintVertical_bias="0.382"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewAliment"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewAliment"
         app:srcCompat="@android:drawable/ic_menu_add" />
+
+    <TextView
+        android:id="@+id/textViewHour"
+        android:layout_width="112dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Heure :"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintStart_toEndOf="@+id/calendarView"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+    <TimePicker
+        android:id="@+id/simpleTimePicker"
+        android:layout_width="168dp"
+        android:layout_height="192dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="76dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewAliment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/calendarView"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHour"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewAliment"
+        android:layout_width="267dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="368dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewAliment"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
 </android.support.constraint.ConstraintLayout>

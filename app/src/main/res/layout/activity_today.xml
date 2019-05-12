@@ -59,9 +59,9 @@
         android:text="Ajouter un repas"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTodayMeal" />
 
     <Button
         android:id="@+id/buttonScanMeal"
@@ -92,7 +92,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewMeal"
+        android:id="@+id/recyclerViewTodayMeal"
         android:layout_width="395dp"
         android:layout_height="406dp"
         android:layout_marginStart="8dp"
@@ -110,7 +110,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewMeal"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewTodayMeal"
         app:layout_constraintEnd_toStartOf="@+id/textViewDate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

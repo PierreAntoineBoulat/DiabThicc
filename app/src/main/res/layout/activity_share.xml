@@ -74,11 +74,11 @@
                         android:textStyle="bold"
                         android:text="Repas : " />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerViewMeal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewTodayMeal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     </android.support.v7.widget.RecyclerView>
 
