@@ -28,6 +28,10 @@ import java.util.GregorianCalendar;
 public class AddMealActivity extends AppCompatActivity {
 
     ArrayList<Aliment> mAliments = new ArrayList<>();
+    String curDate;
+    int myYear;
+    int myMonth;
+    int myDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,18 @@ public class AddMealActivity extends AppCompatActivity {
 
         final EditText editText = findViewById(R.id.editText);
         final CalendarView myCalendar = findViewById(R.id.calendarView);
+        myCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month,
+                                            int dayOfMonth) {
+                int d = dayOfMonth;
+                curDate =String.valueOf(d);
+                myYear = year;
+                myMonth = month;
+                myDay = dayOfMonth;
+            }
+        });
 
         final TimePicker simpleTimePicker = findViewById(R.id.simpleTimePicker);
         simpleTimePicker.setIs24HourView(true);
@@ -46,14 +62,14 @@ public class AddMealActivity extends AppCompatActivity {
         validMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long myDate = myCalendar.getDate();
+                //long myDate = myCalendar.getDate();
                 int myHour = simpleTimePicker.getCurrentHour();
                 int myMinutes = simpleTimePicker.getCurrentMinute();
 
-                GregorianCalendar calendar = new GregorianCalendar();
-                calendar.setTimeInMillis(myDate);
-                CustomDate myCustomDate = new CustomDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH),simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
-
+                //GregorianCalendar calendar = new GregorianCalendar();
+                //calendar.setTimeInMillis(myDate);
+                //CustomDate myCustomDate = new CustomDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH),simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
+                CustomDate myCustomDate = new CustomDate(myYear,myMonth+1,myDay,simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
                 Meal myNewMeal = new Meal(editText.getText().toString(),myCustomDate, getType(myCustomDate));
                 for (Aliment aliment : mAliments){
                     myNewMeal.addAliment(aliment);
@@ -63,7 +79,7 @@ public class AddMealActivity extends AppCompatActivity {
 
                 CurrentUserService.currentUser.getCurrentDiet().addMeal(myNewMeal);
 
-                Intent firstIntent = myCalendar(myNewMeal, calendar, myHour, myMinutes);
+                Intent firstIntent = myCalendar(myNewMeal, myCustomDate, myHour, myMinutes);
                 startActivityForResult(firstIntent,2);
             }
         });
@@ -106,30 +122,29 @@ public class AddMealActivity extends AppCompatActivity {
             mAliments = new ArrayList<>();
             int key = data.getIntExtra("key",0);
             int newKey = 0;
-            while(newKey == key){
-                Aliment aliment = (Aliment) data.getSerializableExtra(newKey+"");
+            while(newKey != key){
+                Aliment aliment = (Aliment) data.getSerializableExtra(newKey+"key");
                 mAliments.add(aliment);
                 newKey++;
             }
             Aliment carotte = new Aliment("Carotte",new Diet(200,200,200));
-            mAliments.add(carotte);
+            //mAliments.add(carotte);
             initRecyclerView(mAliments);
         }
     }
 
-    private Intent myCalendar(Meal myNewMeal, Calendar calendar, int hour, int minute){
+    private Intent myCalendar(Meal myNewMeal, CustomDate myCustomDate, int hour, int minute){
         String description = " " ;
         for(Aliment aliment : myNewMeal.getAliments()){
             description= description+"    "+aliment.getName();
         }
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
-        int changement = ((hour-calendar.get(Calendar.HOUR_OF_DAY))*60*60*1000)+((minute-calendar.get(Calendar.MINUTE))*60*1000);
-        intent.putExtra("beginTime", calendar.getTimeInMillis()+ changement );
+        intent.putExtra("beginTime", myCustomDate.getTime() );
         intent.putExtra("allDay", false);
         intent.putExtra(CalendarContract.Events.DESCRIPTION, description );
         intent.putExtra("rrule", "FREQ=YEARLY");
-        intent.putExtra("endTime", calendar.getTimeInMillis()+changement+60*60*1000);
+        intent.putExtra("endTime", myCustomDate.getTime() +60*60*1000);
         intent.putExtra("title", myNewMeal.getName());
         return intent;
     }
