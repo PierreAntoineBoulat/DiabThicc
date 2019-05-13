@@ -2,6 +2,7 @@ package com.game.pa2a.diabthicc;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
 
 import com.game.pa2a.diabthicc.models.Aliment;
@@ -77,7 +79,15 @@ public class AddMealActivity extends AppCompatActivity {
             Log.d("meal", "size :" +mAliments.size());
         }
 
-        initRecyclerView(mAliments);
+        ImageButton imageButtonAddAliment = findViewById(R.id.imageButtonAliment);
+
+        imageButtonAddAliment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentAliment = new Intent(AddMealActivity.this, AddAlimentActivity.class);
+                startActivityForResult(intentAliment,1);
+            }
+        });
     }
 
     @Override
@@ -90,14 +100,32 @@ public class AddMealActivity extends AppCompatActivity {
             Intent endIntent = new Intent(AddMealActivity.this,TodayActivity.class);
             startActivity(endIntent);
         }
+        if(requestCode==1){
+            mAliments = new ArrayList<>();
+            int key = data.getIntExtra("key",0);
+            int newKey = 0;
+            while(newKey == key){
+                Aliment aliment = (Aliment) data.getSerializableExtra(newKey+"");
+                mAliments.add(aliment);
+                newKey++;
+            }
+            Aliment carotte = new Aliment("Carotte",new Diet(200,200,200));
+            mAliments.add(carotte);
+            initRecyclerView(mAliments);
+        }
     }
 
     private Intent myCalendar(Meal myNewMeal, Calendar calendar, int hour, int minute){
+        String description = " " ;
+        for(Aliment aliment : myNewMeal.getAliments()){
+            description= description+"    "+aliment.getName();
+        }
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
         int changement = ((hour-calendar.get(Calendar.HOUR_OF_DAY))*60*60*1000)+((minute-calendar.get(Calendar.MINUTE))*60*1000);
         intent.putExtra("beginTime", calendar.getTimeInMillis()+ changement );
         intent.putExtra("allDay", false);
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, description );
         intent.putExtra("rrule", "FREQ=YEARLY");
         intent.putExtra("endTime", calendar.getTimeInMillis()+changement+60*60*1000);
         intent.putExtra("title", myNewMeal.getName());
@@ -109,13 +137,9 @@ public class AddMealActivity extends AppCompatActivity {
         Aliment jusO = new Aliment("Jus d'Orange", new Diet(15,8,12));
         Aliment croissant = new Aliment("Croissant", new Diet(8,20,18));
 
-        Aliment poulet = new Aliment("Poulet", new Diet(31, 0, 5));
-        Aliment boeuf = new Aliment("Boeuf", new Diet(28, 0, 15));
-        Aliment porc = new Aliment("Porc", new Diet(30, 0, 4));
-
-        mAliments.add(cafe);
-        mAliments.add(jusO);
-        mAliments.add(croissant);
+        //mAliments.add(cafe);
+        //mAliments.add(jusO);
+        //mAliments.add(croissant);
     }
 
     private void initRecyclerView(ArrayList<Aliment> mAliments) {

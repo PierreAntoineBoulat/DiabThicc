@@ -28,6 +28,7 @@
         <activity android:name=".TodayActivity" />
         <activity android:name=".CameraActivity"/>
         <activity android:name=".AddMealActivity"/>
+        <activity android:name=".AddAlimentActivity"/>
         <activity android:name=".WelcomActivity"/>
         <activity android:name=".ConnectActivity"/>
         <activity android:name=".RegisterActivity"/>
