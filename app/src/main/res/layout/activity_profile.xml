@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/evolGlu"
-        android:layout_width="23dp"
+        android:layout_width="30dp"
         android:layout_height="19dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="240dp"
@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/evolLip"
-        android:layout_width="23dp"
+        android:layout_width="30dp"
         android:layout_height="19dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="148dp"
@@ -169,7 +169,7 @@
 
     <TextView
         android:id="@+id/evolProt"
-        android:layout_width="23dp"
+        android:layout_width="30dp"
         android:layout_height="19dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="60dp"
