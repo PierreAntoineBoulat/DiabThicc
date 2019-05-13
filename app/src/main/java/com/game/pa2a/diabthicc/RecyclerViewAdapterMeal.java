@@ -3,6 +3,7 @@ package com.game.pa2a.diabthicc;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +48,6 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
     ImageView dialog_tweet;
     Button dialog_bntadd;
     Button dialog_bntback;
-
 
     private Context context;
     private Dialog mDialog;
@@ -93,6 +94,8 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
                 Intent intent = addTotheCalendar(mMeals.get(i));
                 context.startActivity(intent);
                 CharSequence text = "Repas ajouté au menu du jour";
+
+                // Log.d("date meal", m.getConsommationDate().toString());
 
                 Intent i = new Intent(context, AddMealActivity.class);
                 i.putExtra("meal", m);
@@ -157,7 +160,7 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
                     @Override
                     public void onClick(View view){
 
-                        String txt = "L'utilisateur " + currentUser + " partage un(e) " + item.getName() + "\n-Glucides: " + Integer.toString(item.getDiet().getCarbsIntake()) + "\n-Lipides: " + Integer.toString(item.getDiet().getCarbsIntake()) + "\n-Proteines: " + Integer.toString(item.getDiet().getProteinIntake());
+                        String txt = currentUser + " partage un(e) " + item.getName() + "\n-Glucides: " + Integer.toString(item.getDiet().getCarbsIntake()) + "\n-Lipides: " + Integer.toString(item.getDiet().getCarbsIntake()) + "\n-Proteines: " + Integer.toString(item.getDiet().getProteinIntake());
 
                         final TwitterSession session = new TwitterSession(new TwitterAuthToken(context.getString(R.string.com_twitter_sdk_android_ACCESS_KEY), context.getString(R.string.com_twitter_sdk_android_ACCESS_SECRET)), 1125390652588593152L, "DiabThicc");
                         TwitterCore.getInstance().getSessionManager().setActiveSession(session);

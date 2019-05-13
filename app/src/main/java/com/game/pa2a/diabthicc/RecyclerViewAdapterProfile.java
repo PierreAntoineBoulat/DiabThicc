@@ -42,7 +42,6 @@ public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerVie
     TextView dialog_name;
     ImageView diag_icon;
     ImageView dialog_tweet;
-    private Bitmap image;
 
     Uri imageUri;
 
@@ -99,6 +98,7 @@ public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerVie
                         "drawable",
                         context.getPackageName()
                 );
+
                 diag_icon.setImageResource(resId);
                 dialog_name.setText(item.getName());
                 mDialog.show();
@@ -116,15 +116,14 @@ public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerVie
                     @Override
                     public void onClick(View view){
 
-                        String txt = "L'utilisateur " + currentUser + " partage l'utilisateur: " + item.getName() + "\n-Profile: " + item.getProfil().getName();
+                        String txt = currentUser + " partage l'utilisateur: " + item.getFirstName() + " " + item.getName() + "\nProfil: " + item.getProfil().getName();
 
                         final TwitterSession session = new TwitterSession(new TwitterAuthToken(context.getString(R.string.com_twitter_sdk_android_ACCESS_KEY), context.getString(R.string.com_twitter_sdk_android_ACCESS_SECRET)), 1125390652588593152L, "DiabThicc");
                         TwitterCore.getInstance().getSessionManager().setActiveSession(session);
 
                         final Intent intentTweet = new ComposerActivity.Builder(context)
                                 .session(session)
-                                .text("#DiabThicclUser\n" + txt)
-                                //.image(Uri.fromFile())
+                                .text("#DiabThiccUser\n" + txt)
                                 .createIntent();
                         context.startActivity(intentTweet);
                     }
