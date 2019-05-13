@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.services.CurrentUserService;
@@ -39,6 +41,8 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
     TextView dialog_prot;
     ImageView dialog_icon;
     ImageView dialog_tweet;
+    Button dialog_bntadd;
+    Button dialog_bntback;
 
 
     private Context context;
@@ -53,7 +57,7 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
 
     @NonNull
     @Override
-    public ViewHolderMeal onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolderMeal onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_card_meal, viewGroup, false);
 
         mDialog = new Dialog(context);
@@ -76,6 +80,26 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
         dialog_lip.setText(Integer.toString(mMeals.get(i).getDiet().getFatIntake()));
         dialog_prot = mDialog.findViewById(R.id.mealProt);
         dialog_prot.setText(Integer.toString(mMeals.get(i).getDiet().getProteinIntake()));
+        dialog_bntadd = mDialog.findViewById(R.id.addMeal);
+        dialog_bntadd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentUser.getCurrentDiet().addMeal(mMeals.get(i));
+
+                CharSequence text = "Repas ajouté au menu du jour";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
+        dialog_bntback = mDialog.findViewById(R.id.goBack);
+        dialog_bntback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
 
         return new ViewHolderMeal(view);
     }

@@ -99,7 +99,7 @@ public class Meal implements Serializable {
         return this.name;
     }
 
-    // TODO : Would be removed if the ComparatorDate is.
+    /*// TODO : Would be removed if the ComparatorDate is.
     public static class ModelMealComparatorOnDate implements Comparator<Meal> {
 
         @Override
@@ -114,5 +114,5 @@ public class Meal implements Serializable {
         public int compare(Meal o1, Meal o2) {
             return o1.getName().compareTo(o2.getName());
         }
-    }
+    }*/
 }

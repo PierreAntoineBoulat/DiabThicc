@@ -17,7 +17,6 @@ import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddAlimentActivity extends AppCompatActivity {
     ArrayList<Meal> baseMeal = new ArrayList<>();
@@ -51,6 +50,9 @@ public class AddAlimentActivity extends AppCompatActivity {
 
             }
         });
+
+        //EditText searchAliment = findViewById(R.id.editTextResearchAliment);
+        //searchAliment.onData
 
         initData();
         initRecyclerView(baseMeal);
