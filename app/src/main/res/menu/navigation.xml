@@ -26,4 +26,10 @@
         android:icon="@drawable/ic_share_black_24dp"
         android:title="Share"/>
 
+    <item
+        android:id="@+id/navigation_profil"
+        android:enabled="true"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Profil"/>
+
 </menu>

@@ -50,6 +50,11 @@ public class BottomNavListener implements BottomNavigationView.OnNavigationItemS
                 caller.startActivity(intent);
                 break;
 
+            case R.id.navigation_profil:
+                intent = new Intent(caller, ProfileActivity.class);
+                caller.startActivity(intent);
+                break;
+
         }
         return true;
     }

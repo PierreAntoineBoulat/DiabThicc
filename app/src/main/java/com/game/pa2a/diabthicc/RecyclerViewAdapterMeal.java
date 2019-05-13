@@ -25,6 +25,7 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
     TextView dialog_lip;
     TextView dialog_prot;
     ImageView dialog_icon;
+    ImageView dialog_twitter;
 
     private Context context;
     private Dialog mDialog;
@@ -53,6 +54,8 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
                 context.getPackageName()
         );
         dialog_icon.setImageResource(resId);
+        dialog_twitter = mDialog.findViewById(R.id.twitterIcon);
+        dialog_twitter.setImageResource(R.drawable.twitter);
         dialog_glu = mDialog.findViewById(R.id.mealGlu);
         dialog_glu.setText(Integer.toString(mMeals.get(i).getDiet().getCarbsIntake()));
         dialog_lip = mDialog.findViewById(R.id.mealLip);

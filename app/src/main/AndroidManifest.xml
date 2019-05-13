@@ -35,6 +35,7 @@
         <activity android:name=".Register2Activity"/>
         <activity android:name=".TwitterList"/>
         <activity android:name=".TweetForm"/>
+        <activity android:name=".ProfileActivity"/>
 
         <service android:name=".services.NotificationService" />
         <service android:name=".services.CurrentUserService" />
