@@ -17,7 +17,6 @@ import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddAlimentActivity extends AppCompatActivity {
     ArrayList<Meal> baseMeal = new ArrayList<>();
@@ -51,6 +50,9 @@ public class AddAlimentActivity extends AppCompatActivity {
 
             }
         });
+
+        //EditText searchAliment = findViewById(R.id.editTextResearchAliment);
+        //searchAliment.onData
 
         initData();
         initRecyclerView(baseMeal);
@@ -180,6 +182,7 @@ public class AddAlimentActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("aliments", mAliment);
+        outState.putSerializable("searchCriteria", ((EditText)findViewById(R.id.editTextResearchAliment)).getText().toString());
     }
 
     @Override
@@ -188,5 +191,6 @@ public class AddAlimentActivity extends AppCompatActivity {
         mAliment = (ArrayList<Aliment>) outState.getSerializable("aliments");
         initRecyclerViewAliment(mAliment);
         updateScore();
+        ((EditText)findViewById(R.id.editTextResearchAliment)).setText((String)outState.getSerializable("searchCriteria"));
     }
 }
