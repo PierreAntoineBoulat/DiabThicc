@@ -58,7 +58,6 @@ public class NotificationService extends Service {
     private static boolean firstConnexionOfDay = true;
     private static boolean firstNotifOfDay = true;
     private WeakReference<Context> context;
-    private static long timeLastNotif = 0;
     private Person currentUser;
 
     @Nullable
@@ -263,7 +262,6 @@ public class NotificationService extends Service {
         public void run() {
             if (firstConnexionOfDay && notifNextWeight == null) {
                 createNotificationWeight();
-                firstConnexionOfDay = false;
             }
 
             if (notifNextMeal == null && currentUser.getCurrentDiet().getMeals() != null) {
@@ -279,26 +277,41 @@ public class NotificationService extends Service {
                 }
             }
 
-            if (notifOverflow == null) {
+            if (notifOverflow == null && firstNotifOfDay) {
+                Profile p = CurrentUserService.currentUser.getProfil();
 
-                Profile p = currentUser.getProfil();
-                Diet d = currentUser.getCurrentDiet().getDailyDiet();
+                int protConso = 0, protMax = 0;
+                int fatConso = 0, fatMax = 0;
+                int carbsConso = 0, carbsMax = 0;
 
-                if (p.getMaxGlucides() < d.getCarbsIntake()) {
+                for(Meal m : CurrentUserService.currentUser.getCurrentDiet().getMeals()){
+                    if(m.getConsommationDate().dayEqualsTo(new CustomDate())) {
+                        for (Aliment a : m.getAliments()) {
+                            protConso += a.getDiet().getProteinIntake();
+                            fatConso += a.getDiet().getFatIntake();
+                            carbsConso += a.getDiet().getCarbsIntake();
+                        }
+                    }
+                }
+
+                if (p.getMaxGlucides() < carbsConso) {
+                    firstConnexionOfDay = false;
                     String title = "Attention, vous avez depassé votre apport recommandé en glucides !";
                     int ex = currentUser.getProfil().getObjectif().getFatIntake() - currentUser.getProfil().getMaxGlucides();
                     String description = "Vous dépassez actuellement de " + ex + "g votre taux de glucide.\n";
                     description += "Arrangez votre alimention, ou modifiez vos objectifs";
                     createNotificationObjectif(title, description);
                 }
-                else if (p.getMaxLipides() < d.getFatIntake()) {
+                else if (p.getMaxLipides() < fatConso) {
+                    firstConnexionOfDay = false;
                     String title = "Attention, vous avez depassé votre apport recommandé en lipides !";
                     int ex = currentUser.getProfil().getObjectif().getFatIntake() - currentUser.getProfil().getMaxGlucides();
                     String description = "Vous dépassez actuellement de " + ex + "g votre taux de lipide.\n";
                     description += "Arrangez votre alimention, ou modifiez vos objectifs";
                     createNotificationObjectif(title, description);
                 }
-                else if (p.getMaxProt() < d.getProteinIntake()) {
+                else if (p.getMaxProt() < protConso) {
+                    firstConnexionOfDay = false;
                     String title = "Attention, vous avez depassé votre apport recommandé en proteines !";
                     int ex = currentUser.getProfil().getObjectif().getFatIntake() - currentUser.getProfil().getMaxGlucides();
                     String description = "Vous dépassez actuellement de " + ex + "g votre taux de proteine.\n";
