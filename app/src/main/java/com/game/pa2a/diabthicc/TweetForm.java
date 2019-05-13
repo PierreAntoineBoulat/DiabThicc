@@ -26,12 +26,13 @@ public class TweetForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        //a mettre dans les .java en question
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incident_form);
 
         final EditText editTitle = findViewById(R.id.editTextTweet);
 
-        //a modifier
+        //a modifier pour mettre le bouton sur les repas ou user
         final Button btn = findViewById(R.id.btnTweet);
 
         boolean fromTweet = getIntent().getBooleanExtra("fromTweet", false);
@@ -47,14 +48,13 @@ public class TweetForm extends AppCompatActivity {
                 .build();
         Twitter.initialize(config);
 
-        Log.i("sa", "salut");
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
 
-                Log.i("sa", "salut");
+                Log.i("twitter", "tweet du user contenant repas nomUser apport");
 
+                //modifier suivant repas ou user
                 String txt = editTitle.getText().toString();
 
                 final TwitterSession session = new TwitterSession(new TwitterAuthToken(getString(R.string.com_twitter_sdk_android_ACCESS_KEY), getString(R.string.com_twitter_sdk_android_ACCESS_SECRET)), 1125390652588593152L, "DiabThicc");
@@ -62,7 +62,7 @@ public class TweetForm extends AppCompatActivity {
 
                 final Intent intentTweet = new ComposerActivity.Builder(TweetForm.this)
                         .session(session)
-                        .text("Salut:\n" + txt)
+                        .text("#DiabThicc\n" + txt)
                         .createIntent();
                 startActivity(intentTweet);
             }

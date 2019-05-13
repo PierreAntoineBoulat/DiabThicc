@@ -2,10 +2,16 @@ package com.game.pa2a.diabthicc;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +20,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.game.pa2a.diabthicc.models.Person;
+import com.game.pa2a.diabthicc.services.CurrentUserService;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerViewAdapterProfile.ViewHolder>{
@@ -22,9 +41,14 @@ public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerVie
     private ArrayList<com.game.pa2a.diabthicc.models.Person> mPersons;
     TextView dialog_name;
     ImageView diag_icon;
+    ImageView dialog_tweet;
+    private Bitmap image;
+
+    Uri imageUri;
 
     private Context context;
     private Dialog mDialog;
+    private Person currentUser;
 
 
     public RecyclerViewAdapterProfile(Context context, ArrayList<com.game.pa2a.diabthicc.models.Person> mPersons) {
@@ -47,6 +71,7 @@ public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerVie
                 context.getPackageName()
         );
         diag_icon.setImageResource(resId);
+        dialog_tweet = mDialog.findViewById(R.id.btnTweetUser);
         dialog_name = mDialog.findViewById(R.id.fragProfileName);
         dialog_name.setText(mPersons.get(i).getName());
 
@@ -69,7 +94,7 @@ public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerVie
         viewHolder.layoutProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int resId = context.getResources().getIdentifier(
+                final int resId = context.getResources().getIdentifier(
                         item.getIcon(),
                         "drawable",
                         context.getPackageName()
@@ -77,6 +102,33 @@ public class RecyclerViewAdapterProfile extends RecyclerView.Adapter<RecyclerVie
                 diag_icon.setImageResource(resId);
                 dialog_name.setText(item.getName());
                 mDialog.show();
+
+                currentUser = CurrentUserService.currentUser;
+
+                TwitterConfig config = new TwitterConfig.Builder(context)
+                        .logger(new DefaultLogger(Log.DEBUG))
+                        .twitterAuthConfig(new TwitterAuthConfig(context.getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), context.getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
+                        .debug(true)
+                        .build();
+                Twitter.initialize(config);
+
+                dialog_tweet.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view){
+
+                        String txt = "L'utilisateur " + currentUser + " partage l'utilisateur: " + item.getName() + "\n-Profile: " + item.getProfil().getName();
+
+                        final TwitterSession session = new TwitterSession(new TwitterAuthToken(context.getString(R.string.com_twitter_sdk_android_ACCESS_KEY), context.getString(R.string.com_twitter_sdk_android_ACCESS_SECRET)), 1125390652588593152L, "DiabThicc");
+                        TwitterCore.getInstance().getSessionManager().setActiveSession(session);
+
+                        final Intent intentTweet = new ComposerActivity.Builder(context)
+                                .session(session)
+                                .text("#DiabThicclUser\n" + txt)
+                                //.image(Uri.fromFile())
+                                .createIntent();
+                        context.startActivity(intentTweet);
+                    }
+                });
             }
         });
     }
