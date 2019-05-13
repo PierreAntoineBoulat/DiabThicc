@@ -57,6 +57,12 @@ public class Person implements Serializable {
         archivedWeights.put(CustomDate.build(today.getTime() - (day * 5)), 38.0);
         archivedWeights.put(CustomDate.build(today.getTime() - (day * 9)), 36.0);
         archivedWeights.put(CustomDate.build(today.getTime() - (day * 13)), 34.0);
+
+        // For demo purposes only
+        archivedDiets.put(yesterday, new Diet(500, 300, 200));
+        archivedDiets.put(CustomDate.build(today.getTime() - (day * 5)), new Diet(300, 200, 150));
+        archivedDiets.put(CustomDate.build(today.getTime() - (day * 9)), new Diet(600, 350, 250));
+        archivedDiets.put(CustomDate.build(today.getTime() - (day * 13)), new Diet(400, 200, 300));
     }
 
     public void setImage(String image) {
@@ -175,5 +181,9 @@ public class Person implements Serializable {
     @Override
     public String toString(){
         return this.name;
+    }
+
+    public HashMap<CustomDate, Diet> getArchivedDiets() {
+        return archivedDiets;
     }
 }
