@@ -279,21 +279,7 @@ public class NotificationService extends Service {
                 }
             }
 
-            if (notifOverflow == null && currentUser.getProfil().getObjectif() != null && firstNotifOfDay) {
-                firstNotifOfDay = false;
-                int protConso = 0;
-                int fatConso = 0;
-                int carbsConso = 0;
-
-                /*for (Meal m : currentUser.getCurrentDiet().getMeals()) {
-                    if(m.getConsommationDate().dayEqualsTo(currentDay)) {
-                        for (Aliment a : m.getAliments()) {
-                            protConso += a.getDiet().getProteinIntake();
-                            fatConso += a.getDiet().getFatIntake();
-                            carbsConso += a.getDiet().getCarbsIntake();
-                        }
-                    }
-                }*/
+            if (notifOverflow == null) {
 
                 Profile p = currentUser.getProfil();
                 Diet d = currentUser.getCurrentDiet().getDailyDiet();

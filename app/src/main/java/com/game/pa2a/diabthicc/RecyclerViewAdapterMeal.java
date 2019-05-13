@@ -169,6 +169,7 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
                 dialog_bntadd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         Intent i = new Intent(context, AddMealActivity.class);
                         i.putExtra("meal", item);
                         context.startActivity(i);
