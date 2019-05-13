@@ -180,7 +180,6 @@ public class AddAlimentActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("aliments", mAliment);
-        outState.putSerializable("searchCriteria", ((EditText)findViewById(R.id.editTextResearchAliment)).getText().toString());
     }
 
     @Override
@@ -189,6 +188,5 @@ public class AddAlimentActivity extends AppCompatActivity {
         mAliment = (ArrayList<Aliment>) outState.getSerializable("aliments");
         initRecyclerViewAliment(mAliment);
         updateScore();
-        ((EditText)findViewById(R.id.editTextResearchAliment)).setText((String)outState.getSerializable("searchCriteria"));
     }
 }
