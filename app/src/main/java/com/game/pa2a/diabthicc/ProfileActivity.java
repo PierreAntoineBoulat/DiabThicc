@@ -5,6 +5,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.game.pa2a.diabthicc.models.Person;
@@ -32,6 +34,15 @@ public class ProfileActivity extends AppCompatActivity {
         );
 
         user = findViewById(R.id.textViewUser);
-        user.setText("user: " + currentUser);
+        user.setText("" + currentUser);
+
+        ImageView imageUser = findViewById(R.id.imageUser);
+        String path = currentUser.getImage();
+        //imageUser.setImageResource();
+
+        SeekBar seekBarProt =  findViewById(R.id.seekBarProt);
+        SeekBar seekBarLip =findViewById(R.id.seekBarLip);
+        SeekBar seekBarGlu = findViewById(R.id.seekBarGlu);
+
     }
 }
