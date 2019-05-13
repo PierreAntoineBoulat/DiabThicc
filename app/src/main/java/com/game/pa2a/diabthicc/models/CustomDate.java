@@ -10,7 +10,7 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
     Calendar calendar;
 
     public CustomDate(int year, int month, int day, int hours, int minutes) {
-        calendar = new GregorianCalendar(year, month, day, hours, minutes);
+        calendar = new GregorianCalendar(year, month-1, day, hours, minutes);
         this.year = year;
         this.month = month;
         this.day = day;
@@ -113,6 +113,7 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
 
     public void setMonth(int month) {
         this.month = month;
+        this.calendar.set(year,month,day);
     }
 
     public int getDay() {
@@ -121,6 +122,7 @@ public class CustomDate implements Comparable<CustomDate>, Serializable {
 
     public void setDay(int day) {
         this.day = day;
+        this.calendar.set(year,month,day);
     }
 
     public int getHours() {

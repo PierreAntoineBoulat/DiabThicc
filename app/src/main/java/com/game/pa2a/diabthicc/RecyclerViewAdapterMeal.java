@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.game.pa2a.diabthicc.models.Aliment;
+import com.game.pa2a.diabthicc.models.CustomDate;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.services.CurrentUserService;
@@ -87,6 +90,10 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
         dialog_bntadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentUser.getCurrentDiet().addMeal(mMeals.get(i));
+                Intent intent = addTotheCalendar(mMeals.get(i));
+                context.startActivity(intent);
+                CharSequence text = "Repas ajouté au menu du jour";
 
                 // Log.d("date meal", m.getConsommationDate().toString());
 
@@ -210,5 +217,24 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
             layoutMeal = itemView.findViewById(R.id.layoutMeal);
         }
 
+    }
+
+    public Intent addTotheCalendar(Meal meal){
+        CustomDate myCustomDate = meal.getConsommationDate();
+        String description = " " ;
+        for(Aliment aliment : meal.getAliments()){
+            description= description+"    "+aliment.getName();
+        }
+        CustomDate mcd2 = myCustomDate;
+        mcd2.setMonth(mcd2.getMonth()-1);
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", mcd2.getTime() );
+        intent.putExtra("allDay", false);
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, description );
+        intent.putExtra("rrule", "FREQ=YEARLY");
+        intent.putExtra("endTime", mcd2.getTime() +60*60*1000);
+        intent.putExtra("title", meal.getName());
+        return intent;
     }
 }
