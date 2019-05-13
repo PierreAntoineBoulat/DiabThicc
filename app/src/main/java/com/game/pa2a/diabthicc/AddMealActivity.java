@@ -29,9 +29,9 @@ public class AddMealActivity extends AppCompatActivity {
 
     ArrayList<Aliment> mAliments = new ArrayList<>();
     String curDate;
-    int myYear;
-    int myMonth;
-    int myDay;
+    int myYear = 2019;
+    int myMonth = 5;
+    int myDay = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class AddMealActivity extends AppCompatActivity {
                 int d = dayOfMonth;
                 curDate =String.valueOf(d);
                 myYear = year;
-                myMonth = month;
+                myMonth = month+1;
                 myDay = dayOfMonth;
             }
         });
@@ -69,7 +69,7 @@ public class AddMealActivity extends AppCompatActivity {
                 //GregorianCalendar calendar = new GregorianCalendar();
                 //calendar.setTimeInMillis(myDate);
                 //CustomDate myCustomDate = new CustomDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH),simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
-                CustomDate myCustomDate = new CustomDate(myYear,myMonth+1,myDay,simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
+                CustomDate myCustomDate = new CustomDate(myYear,myMonth,myDay,simpleTimePicker.getCurrentHour(),simpleTimePicker.getCurrentMinute());
                 Meal myNewMeal = new Meal(editText.getText().toString(),myCustomDate, getType(myCustomDate));
                 for (Aliment aliment : mAliments){
                     myNewMeal.addAliment(aliment);
@@ -138,13 +138,15 @@ public class AddMealActivity extends AppCompatActivity {
         for(Aliment aliment : myNewMeal.getAliments()){
             description= description+"    "+aliment.getName();
         }
+        CustomDate newCustomDate = new CustomDate(myCustomDate.getYear(),myCustomDate.getMonth(),myCustomDate.getDay(),myCustomDate.getHours(),myCustomDate.getMinutes());
+
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
-        intent.putExtra("beginTime", myCustomDate.getTime() );
+        intent.putExtra("beginTime", newCustomDate.getTime() );
         intent.putExtra("allDay", false);
         intent.putExtra(CalendarContract.Events.DESCRIPTION, description );
         intent.putExtra("rrule", "FREQ=YEARLY");
-        intent.putExtra("endTime", myCustomDate.getTime() +60*60*1000);
+        intent.putExtra("endTime", newCustomDate.getTime() +60*60*1000);
         intent.putExtra("title", myNewMeal.getName());
         return intent;
     }
