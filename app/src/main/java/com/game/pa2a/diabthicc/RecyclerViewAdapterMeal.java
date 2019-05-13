@@ -57,8 +57,9 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
 
     @NonNull
     @Override
-    public ViewHolderMeal onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
+    public ViewHolderMeal onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_card_meal, viewGroup, false);
+        final Meal m = mMeals.get(i);
 
         mDialog = new Dialog(context);
         mDialog.setContentView(R.layout.fragement_meal);
@@ -68,10 +69,11 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
         dialog_icon = mDialog.findViewById(R.id.mealIcon);
         //int id = context.getResources().getIdentifier(context.getPackageName()+"drawable/" + mMeals.get(i).getIcon(), null, null);
         int resId = context.getResources().getIdentifier(
-                mMeals.get(i).getIcon(),
+                m.getIcon(),
                 "drawable",
                 context.getPackageName()
         );
+
         dialog_icon.setImageResource(resId);
         dialog_tweet = mDialog.findViewById(R.id.btnTweetMeal);
         dialog_glu = mDialog.findViewById(R.id.mealGlu);
@@ -84,13 +86,16 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
         dialog_bntadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentUser.getCurrentDiet().addMeal(mMeals.get(i));
 
-                CharSequence text = "Repas ajouté au menu du jour";
+                Intent i = new Intent(context, AddMealActivity.class);
+                i.putExtra("meal", m);
+                context.startActivity(i);
+
+                /*CharSequence text = "Repas ajouté au menu du jour";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                toast.show();*/
             }
         });
         dialog_bntback = mDialog.findViewById(R.id.goBack);
@@ -155,6 +160,27 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
                                 .text("#DiabThiccMeal\n" + txt)
                                 .createIntent();
                         context.startActivity(intentTweet);
+                    }
+                });
+
+                dialog_bntadd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context, AddMealActivity.class);
+                        i.putExtra("meal", item);
+                        context.startActivity(i);
+
+                        /*CharSequence text = "Repas ajouté au menu du jour";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();*/
+                    }
+                });
+                dialog_bntback.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mDialog.dismiss();
                     }
                 });
             }

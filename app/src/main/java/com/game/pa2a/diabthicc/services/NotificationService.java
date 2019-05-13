@@ -28,6 +28,7 @@ import com.game.pa2a.diabthicc.StatsActivity;
 import com.game.pa2a.diabthicc.TodayActivity;
 import com.game.pa2a.diabthicc.models.Aliment;
 import com.game.pa2a.diabthicc.models.CustomDate;
+import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.models.Profile;
@@ -175,7 +176,7 @@ public class NotificationService extends Service {
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDeleteIntent(getDeleteIntent())
-                .addAction(R.drawable.ic_add_alarm_black_24dp, "C'EST PARTI!", awayPendingIntent)
+                //.addAction(R.drawable.ic_add_alarm_black_24dp, "C'EST PARTI!", awayPendingIntent)
                 .addAction(R.drawable.ic_home_black_24dp, "FERMER", dismissPendingIntent)
                 .setContentIntent(resultPendingIntent);
 
@@ -217,8 +218,6 @@ public class NotificationService extends Service {
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDeleteIntent(getDeleteIntent())
-                .addAction(R.drawable.ic_add_alarm_black_24dp, "CONSULTER", consulterPendingIntent)
-                .addAction(R.drawable.ic_add_alarm_black_24dp, "MODIFIER", modifierPendingIntent)
                 .addAction(R.drawable.ic_home_black_24dp, "FERMER", dismissPendingIntent)
                 .setContentIntent(resultPendingIntent);
 
@@ -285,28 +284,35 @@ public class NotificationService extends Service {
                 int protConso = 0;
                 int fatConso = 0;
                 int carbsConso = 0;
-                for (Meal m : currentUser.getCurrentDiet().getMeals()) {
-                    for (Aliment a : m.getAliments()) {
-                        protConso += a.getDiet().getProteinIntake();
-                        fatConso += a.getDiet().getFatIntake();
-                        carbsConso += a.getDiet().getCarbsIntake();
+
+                /*for (Meal m : currentUser.getCurrentDiet().getMeals()) {
+                    if(m.getConsommationDate().dayEqualsTo(currentDay)) {
+                        for (Aliment a : m.getAliments()) {
+                            protConso += a.getDiet().getProteinIntake();
+                            fatConso += a.getDiet().getFatIntake();
+                            carbsConso += a.getDiet().getCarbsIntake();
+                        }
                     }
-                }
-                if (currentUser.getProfil().getMaxGlucides() < fatConso) {
+                }*/
+
+                Profile p = currentUser.getProfil();
+                Diet d = currentUser.getCurrentDiet().getDailyDiet();
+
+                if (p.getMaxGlucides() < d.getCarbsIntake()) {
                     String title = "Attention, vous avez depassé votre apport recommandé en glucides !";
                     int ex = currentUser.getProfil().getObjectif().getFatIntake() - currentUser.getProfil().getMaxGlucides();
                     String description = "Vous dépassez actuellement de " + ex + "g votre taux de glucide.\n";
                     description += "Arrangez votre alimention, ou modifiez vos objectifs";
                     createNotificationObjectif(title, description);
                 }
-                else if (currentUser.getProfil().getMaxLipides() < carbsConso) {
+                else if (p.getMaxLipides() < d.getFatIntake()) {
                     String title = "Attention, vous avez depassé votre apport recommandé en lipides !";
                     int ex = currentUser.getProfil().getObjectif().getFatIntake() - currentUser.getProfil().getMaxGlucides();
                     String description = "Vous dépassez actuellement de " + ex + "g votre taux de lipide.\n";
                     description += "Arrangez votre alimention, ou modifiez vos objectifs";
                     createNotificationObjectif(title, description);
                 }
-                else if (currentUser.getProfil().getMaxProt() < protConso) {
+                else if (p.getMaxProt() < d.getProteinIntake()) {
                     String title = "Attention, vous avez depassé votre apport recommandé en proteines !";
                     int ex = currentUser.getProfil().getObjectif().getFatIntake() - currentUser.getProfil().getMaxGlucides();
                     String description = "Vous dépassez actuellement de " + ex + "g votre taux de proteine.\n";

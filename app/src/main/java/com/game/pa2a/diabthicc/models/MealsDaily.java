@@ -24,4 +24,8 @@ public class MealsDaily implements Serializable {
     public ArrayList<Meal> getMeals(){
         return meals;
     }
+
+    public Diet getDailyDiet() {
+        return dailyDiet;
+    }
 }
