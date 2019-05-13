@@ -57,7 +57,7 @@ public class TwitterList extends AppCompatActivity {
         final CustomTweetTimeLineAdapter adapter;
         if (isHashTag) {
             final SearchTimeline searchTimeline = new SearchTimeline.Builder()
-                    .query("#DiabThicc")
+                    .query("#DiabThiccMeal")
                     .maxItemsPerRequest(50)
                     .build();
 
@@ -66,10 +66,13 @@ public class TwitterList extends AppCompatActivity {
                     R.style.tw__TweetLightWithActionsStyle,
                     null);
         } else {
-            UserTimeline userTimeline = new UserTimeline.Builder().screenName("DiabThicc").build();
+            final SearchTimeline searchTimeline = new SearchTimeline.Builder()
+                    .query("#DiabThiccUser")
+                    .maxItemsPerRequest(50)
+                    .build();
 
             adapter = new CustomTweetTimeLineAdapter(this,
-                    userTimeline,
+                    searchTimeline,
                     R.style.tw__TweetLightWithActionsStyle,
                     null);
         }
