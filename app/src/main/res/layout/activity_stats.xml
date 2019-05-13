@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/objectifPoids"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Objectif de poids"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/aujdPoids"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:text="Aujourd'hui, vous avez "
+        app:layout_constraintEnd_toEndOf="@+id/objectifPoids"
+        app:layout_constraintStart_toStartOf="@+id/objectifPoids"
+        app:layout_constraintTop_toBottomOf="@+id/objectifPoids" />
+
+    <Button
+        android:id="@+id/updateWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Mettre à jour votre poids"
+        app:layout_constraintEnd_toEndOf="@+id/aujdPoids"
+        app:layout_constraintStart_toStartOf="@+id/aujdPoids"
+        app:layout_constraintTop_toBottomOf="@+id/aujdPoids" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/updateWeight"
+        app:layout_constraintBottom_toTopOf="@+id/navigationViewStats">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/WeightChart"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.github.mikephil.charting.charts.LineChart>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/RespectChart"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/WeightChart"
+                tools:layout_editor_absoluteX="20dp">
+
+            </com.github.mikephil.charting.charts.LineChart>
+
+            <TextView
+                android:id="@+id/RespectText"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="40dp"
+                android:text=""
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintLeft_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/RespectChart" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Doesn't work for the moment
+    <Button
+        android:id="@+id/weight7d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="7 Days"
+        app:layout_constraintEnd_toStartOf="@+id/weight14d"
+        app:layout_constraintStart_toStartOf="@+id/updateWeight"
+        app:layout_constraintTop_toBottomOf="@+id/updateWeight" />
+
+    <Button
+        android:id="@+id/weight14d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="14 Days"
+        app:layout_constraintEnd_toEndOf="@+id/updateWeight"
+        app:layout_constraintTop_toBottomOf="@+id/updateWeight" />
+    -->
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigationViewStats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/navbar_color"
+        app:itemTextColor="@drawable/navbar_color"
+        app:menu="@menu/navigation"/>
+
+</android.support.constraint.ConstraintLayout>
