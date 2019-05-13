@@ -77,6 +77,8 @@ public class AddMealActivity extends AppCompatActivity {
 
             mAliments = cameraMeal.getAliments();
             Log.d("meal", "size :" +mAliments.size());
+
+            initRecyclerView(mAliments);
         }
 
         ImageButton imageButtonAddAliment = findViewById(R.id.imageButtonAliment);
