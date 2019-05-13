@@ -1,7 +1,6 @@
 package com.game.pa2a.diabthicc;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -63,7 +62,7 @@ public class AddAlimentActivity extends AppCompatActivity {
                 Intent intent = new Intent(AddAlimentActivity.this, AddMealActivity.class);
                 int key = 0;
                 for(Aliment aliment : mAliment){
-                    intent.putExtra(key+"",aliment);
+                    intent.putExtra(key+"key",aliment);
                     key++;
                 }
                 intent.putExtra("key",key);
