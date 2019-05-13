@@ -18,9 +18,9 @@ import com.game.pa2a.diabthicc.models.Diet;
 import com.game.pa2a.diabthicc.models.Meal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddAlimentActivity extends AppCompatActivity {
-    ArrayList<Aliment> baseAliment =  new ArrayList<>();
     ArrayList<Meal> baseMeal = new ArrayList<>();
     ArrayList<Aliment> mAliment = new ArrayList<>();
 
@@ -175,5 +175,19 @@ public class AddAlimentActivity extends AppCompatActivity {
         textGlu.setText(glu+"");
         textLip.setText(lip+"");
         textProt.setText(prot+"");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("aliments", mAliment);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mAliment = (ArrayList<Aliment>) outState.getSerializable("aliments");
+        initRecyclerViewAliment(mAliment);
+        updateScore();
     }
 }
