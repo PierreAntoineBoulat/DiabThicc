@@ -18,9 +18,9 @@ public class Diet implements Serializable {
         calculateCaloricValue();
     }
 
-    Diet() {}
+    public Diet() {}
 
-    void addDiet(Diet diet) {
+    public void addDiet(Diet diet) {
         this.setCarbsIntake(this.carbsIntake + diet.getCarbsIntake());
         this.setProteinIntake(this.proteinIntake + diet.getProteinIntake());
         this.setFatIntake(this.fatIntake + diet.getFatIntake());

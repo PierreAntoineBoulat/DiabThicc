@@ -2,17 +2,30 @@ package com.game.pa2a.diabthicc;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.game.pa2a.diabthicc.models.Meal;
+import com.game.pa2a.diabthicc.models.Person;
+import com.game.pa2a.diabthicc.services.CurrentUserService;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +38,12 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
     TextView dialog_lip;
     TextView dialog_prot;
     ImageView dialog_icon;
-    ImageView dialog_twitter;
+    ImageView dialog_tweet;
+
 
     private Context context;
     private Dialog mDialog;
+    private Person currentUser;
 
 
     public RecyclerViewAdapterMeal(Context context, List<Meal> mMeals) {
@@ -54,8 +69,7 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
                 context.getPackageName()
         );
         dialog_icon.setImageResource(resId);
-        dialog_twitter = mDialog.findViewById(R.id.twitterIcon);
-        dialog_twitter.setImageResource(R.drawable.twitter);
+        dialog_tweet = mDialog.findViewById(R.id.btnTweetMeal);
         dialog_glu = mDialog.findViewById(R.id.mealGlu);
         dialog_glu.setText(Integer.toString(mMeals.get(i).getDiet().getCarbsIntake()));
         dialog_lip = mDialog.findViewById(R.id.mealLip);
@@ -87,13 +101,38 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
                 dialog_lip.setText(Integer.toString(item.getDiet().getFatIntake()));
                 dialog_prot.setText(Integer.toString(item.getDiet().getProteinIntake()));
                 //int id = context.getResources().getIdentifier(context.getPackageName()+"drawable/" + item.getIcon(), null, null);
-                int resId = context.getResources().getIdentifier(
+                final int resId = context.getResources().getIdentifier(
                         item.getIcon(),
                         "drawable",
                         context.getPackageName()
                 );
                 dialog_icon.setImageResource(resId);
                 mDialog.show();
+                currentUser = CurrentUserService.currentUser;
+
+                TwitterConfig config = new TwitterConfig.Builder(context)
+                        .logger(new DefaultLogger(Log.DEBUG))
+                        .twitterAuthConfig(new TwitterAuthConfig(context.getString(R.string.com_twitter_sdk_android_CONSUMER_KEY), context.getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
+                        .debug(true)
+                        .build();
+                Twitter.initialize(config);
+
+                dialog_tweet.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view){
+
+                        String txt = "L'utilisateur " + currentUser + " partage un(e) " + item.getName() + "\n-Glucides: " + Integer.toString(item.getDiet().getCarbsIntake()) + "\n-Lipides: " + Integer.toString(item.getDiet().getCarbsIntake()) + "\n-Proteines: " + Integer.toString(item.getDiet().getProteinIntake());
+
+                        final TwitterSession session = new TwitterSession(new TwitterAuthToken(context.getString(R.string.com_twitter_sdk_android_ACCESS_KEY), context.getString(R.string.com_twitter_sdk_android_ACCESS_SECRET)), 1125390652588593152L, "DiabThicc");
+                        TwitterCore.getInstance().getSessionManager().setActiveSession(session);
+
+                        final Intent intentTweet = new ComposerActivity.Builder(context)
+                                .session(session)
+                                .text("#DiabThiccMeal\n" + txt)
+                                .createIntent();
+                        context.startActivity(intentTweet);
+                    }
+                });
             }
         });
     }

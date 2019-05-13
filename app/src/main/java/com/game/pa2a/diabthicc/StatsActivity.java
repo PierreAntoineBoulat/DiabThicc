@@ -42,6 +42,7 @@ public class StatsActivity extends AppCompatActivity {
     Button changeWeight;
 
     TextView actualWeight;
+    TextView respectText;
 
     LineChart weightChart;
     LineChart respectChart;
@@ -60,6 +61,8 @@ public class StatsActivity extends AppCompatActivity {
         changeWeight = findViewById(R.id.updateWeight);
 
         actualWeight = findViewById(R.id.aujdPoids);
+
+        respectText = findViewById(R.id.RespectText);
 
         actualWeight.setText("Aujourd'hui, vous faites " + currentUser.getWeight() + " kg.");
 
@@ -122,12 +125,18 @@ public class StatsActivity extends AppCompatActivity {
         HashMap<CustomDate, Diet> allDiets = currentUser.getArchivedDiets();
 
         Diet objectif = currentUser.getProfil().getObjectif();
+        double total = 0;
 
         for (Map.Entry<CustomDate, Diet> entry : allDiets.entrySet()) {
             CustomDate key = entry.getKey();
             Diet value = entry.getValue();
             DietResult result = new DietResult(objectif, value);
+            total += result.getPercentCaloric();
             respectEntries.add(new Entry(key.getTime(), (float)result.getPercentCaloric()));
+        }
+
+        if(entries.size()!=0) {
+            respectText.setText("En moyenne, vous respectez votre régime à "+ (int)total / entries.size() +" %");
         }
 
         initChart(respectEntries, respectChart, "Respect (en %)");
