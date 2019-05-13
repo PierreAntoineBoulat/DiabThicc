@@ -56,7 +56,7 @@ public class ShareActivity extends AppCompatActivity {
 
         lProfiles.addAll(Arrays.asList(
                     new Person("Phillipe", "Jean", "Sportif Debutant", "mc_biceps_2", "mc_biceps_2_round"),
-                    new Person("Vraicas", "Florian", "Sportif Amateur", "mc_biceps_3", "mc_biceps_3_round"),
+                    new Person("Vraicasse", "Florianne", "Sportif Amateur", "mc_biceps_3", "mc_biceps_3_round"),
                     new Person("Sku", "Aha", "Diabétique", "mc_biceps_4", "mc_biceps_4_round"),
                     new Person("Zeh", "Memory", "Coach Sportif", "mc_biceps_5", "mc_biceps_5_round"),
                     new Person("Advanced", "Koor", "Coach Sportif", "mc_biceps_6", "mc_biceps_6_round"),
