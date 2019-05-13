@@ -16,6 +16,7 @@ public class WeightDialog extends Dialog implements View.OnClickListener {
     public Dialog d;
     public Button yes, no;
     public NumberPicker np;
+    Person currentUser;
 
     public WeightDialog(Activity a) {
         super(a);
@@ -28,6 +29,7 @@ public class WeightDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.fragment_new_weight);
+        currentUser = CurrentUserService.currentUser;
         yes = findViewById(R.id.buttonYes);
         no = findViewById(R.id.buttonNo);
         np = findViewById(R.id.numberPicker);
@@ -36,7 +38,9 @@ public class WeightDialog extends Dialog implements View.OnClickListener {
         np.setWrapSelectorWheel(true);
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
-
+        if(currentUser.getWeight() > 0.0){ // => if not null
+            np.setValue((int)currentUser.getWeight());
+        }
     }
 
     @Override

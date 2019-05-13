@@ -10,7 +10,7 @@ public class DietResult implements Serializable {
 
     private double percentCaloric;
 
-    DietResult(Diet objective, Diet actual) {
+    public DietResult(Diet objective, Diet actual) {
         this.percentFat = ((double) actual.getFatIntake() / objective.getFatIntake())*100;
         this.percentCarbs = ((double) actual.getCarbsIntake() / objective.getCarbsIntake())*100;
         this.percentProt = ((double) actual.getProteinIntake() / objective.getProteinIntake())*100;

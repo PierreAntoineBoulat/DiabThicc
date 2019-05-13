@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +13,8 @@ import android.widget.TextView;
 
 import com.game.pa2a.diabthicc.MPclasses.DateXAxisFormat;
 import com.game.pa2a.diabthicc.models.CustomDate;
+import com.game.pa2a.diabthicc.models.Diet;
+import com.game.pa2a.diabthicc.models.DietResult;
 import com.game.pa2a.diabthicc.models.Person;
 import com.game.pa2a.diabthicc.services.CurrentUserService;
 import com.github.mikephil.charting.charts.LineChart;
@@ -42,7 +43,9 @@ public class StatsActivity extends AppCompatActivity {
 
     TextView actualWeight;
 
-    LineChart chart;
+    LineChart weightChart;
+    LineChart respectChart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +72,10 @@ public class StatsActivity extends AppCompatActivity {
                 new BottomNavListener(this)
         );
 
-        chart = findViewById(R.id.WeightChart);
+        weightChart = findViewById(R.id.WeightChart);
+        respectChart = findViewById(R.id.RespectChart);
 
-        List<Entry> entries = new ArrayList<>();
+        ArrayList<Entry> entries = new ArrayList<>();
 
         HashMap<CustomDate, Double> allWeights = currentUser.getArchivedWeights();
         if(currentUser.getWeight() > 0.0){ // => if not null
@@ -89,6 +93,7 @@ public class StatsActivity extends AppCompatActivity {
             entries.add(new Entry(allWeights.get(i).first.getTime(), allWeights.get(i).second.floatValue()));
         }*/
 
+        /*
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new DateXAxisFormat());
         xAxis.setDrawAxisLine(true);
@@ -108,6 +113,24 @@ public class StatsActivity extends AppCompatActivity {
         lineData.setDrawValues(false);
         chart.setData(lineData);
         chart.invalidate(); // refresh
+        */
+
+        initChart(entries, weightChart, "Poids (en kg)");
+
+        ArrayList<Entry> respectEntries = new ArrayList<>();
+
+        HashMap<CustomDate, Diet> allDiets = currentUser.getArchivedDiets();
+
+        Diet objectif = currentUser.getProfil().getObjectif();
+
+        for (Map.Entry<CustomDate, Diet> entry : allDiets.entrySet()) {
+            CustomDate key = entry.getKey();
+            Diet value = entry.getValue();
+            DietResult result = new DietResult(objectif, value);
+            respectEntries.add(new Entry(key.getTime(), (float)result.getPercentCaloric()));
+        }
+
+        initChart(respectEntries, respectChart, "Respect (en %)");
 
 
         // TODO :  NOT USABLE RN, moveViewToX fait bugger le linechart...
@@ -152,6 +175,33 @@ public class StatsActivity extends AppCompatActivity {
 
     }
 
+    private void initChart(ArrayList<Entry> entries, LineChart chart, String label) {
+        if(entries.size() < 1) {
+            chart.setVisibility(View.INVISIBLE);
+            return;
+        }
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new DateXAxisFormat());
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1000 * 24 * 60 * 60);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setAvoidFirstLastClipping(true);
+
+        Collections.sort(entries, new EntryXComparator());
+
+        LineDataSet dataSet = new LineDataSet(entries, label); // add entries to dataset
+        dataSet.setColor(Color.BLUE);
+        dataSet.setValueTextColor(Color.RED); // styling, ...
+
+        LineData lineData = new LineData(dataSet);
+        lineData.setDrawValues(false);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
+    }
+
     private void refreshWeight() {
         actualWeight.setText("Aujourd'hui, vous faites " + currentUser.getWeight() + " kg.");
 
@@ -176,8 +226,8 @@ public class StatsActivity extends AppCompatActivity {
 
         LineData lineData = new LineData(dataSet);
         lineData.setDrawValues(false);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh
+        weightChart.setData(lineData);
+        weightChart.invalidate(); // refresh
     }
 
 }

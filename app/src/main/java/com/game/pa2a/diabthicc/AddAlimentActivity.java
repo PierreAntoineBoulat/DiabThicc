@@ -151,7 +151,7 @@ public class AddAlimentActivity extends AppCompatActivity {
     }
 
     private void initRecyclerViewAliment(ArrayList<Aliment> newAliments){
-        LinearLayoutManager layoutManagerAliment = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerAliment = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         RecyclerView recyclerViewAliment = findViewById(R.id.recyclerViewListAliment);
         recyclerViewAliment.setLayoutManager(layoutManagerAliment);
         RecyclerViewAdapterAliment recyclerViewAdapterAliment = new RecyclerViewAdapterAliment(this, newAliments);
