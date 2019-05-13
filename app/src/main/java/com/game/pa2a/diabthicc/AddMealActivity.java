@@ -122,13 +122,13 @@ public class AddMealActivity extends AppCompatActivity {
             mAliments = new ArrayList<>();
             int key = data.getIntExtra("key",0);
             int newKey = 0;
-            while(newKey == key){
-                Aliment aliment = (Aliment) data.getSerializableExtra(newKey+"");
+            while(newKey != key){
+                Aliment aliment = (Aliment) data.getSerializableExtra(newKey+"key");
                 mAliments.add(aliment);
                 newKey++;
             }
             Aliment carotte = new Aliment("Carotte",new Diet(200,200,200));
-            mAliments.add(carotte);
+            //mAliments.add(carotte);
             initRecyclerView(mAliments);
         }
     }
