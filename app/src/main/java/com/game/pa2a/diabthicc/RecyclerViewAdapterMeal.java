@@ -90,8 +90,8 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
         dialog_bntadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentUser.getCurrentDiet().addMeal(mMeals.get(i));
-                Intent intent = addTotheCalendar(mMeals.get(i));
+                currentUser.getCurrentDiet().addMeal(m);
+                Intent intent = addTotheCalendar(m);
                 context.startActivity(intent);
                 CharSequence text = "Repas ajouté au menu du jour";
 
