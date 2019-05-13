@@ -44,5 +44,71 @@ public class ProfileActivity extends AppCompatActivity {
         SeekBar seekBarLip =findViewById(R.id.seekBarLip);
         SeekBar seekBarGlu = findViewById(R.id.seekBarGlu);
 
+        seekBarGlu.setMax(500);
+        seekBarGlu.setProgress(currentUser.getProfil().getMaxGlucides());
+        final TextView evolGlu =findViewById(R.id.evolGlu);
+        evolGlu.setText(""+currentUser.getProfil().getMaxGlucides());
+        seekBarGlu.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                currentUser.getProfil().setMaxGlucides(progress);
+                evolGlu.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        seekBarLip.setMax(500);
+        seekBarLip.setProgress(currentUser.getProfil().getMaxLipides());
+        final TextView evolLip =findViewById(R.id.evolLip);
+        evolLip.setText(""+currentUser.getProfil().getMaxLipides());
+        seekBarLip.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                currentUser.getProfil().setMaxLipides(progress);
+                evolLip.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        seekBarProt.setMax(500);
+        seekBarProt.setProgress(currentUser.getProfil().getMaxProt());
+        final TextView evolProt =findViewById(R.id.evolProt);
+        evolGlu.setText(""+currentUser.getProfil().getMaxProt());
+        seekBarProt.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                currentUser.getProfil().setMaxProt(progress);
+                evolProt.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
     }
 }
