@@ -87,6 +87,8 @@ public class RecyclerViewAdapterMeal extends RecyclerView.Adapter<RecyclerViewAd
             @Override
             public void onClick(View view) {
 
+                // Log.d("date meal", m.getConsommationDate().toString());
+
                 Intent i = new Intent(context, AddMealActivity.class);
                 i.putExtra("meal", m);
                 context.startActivity(i);
