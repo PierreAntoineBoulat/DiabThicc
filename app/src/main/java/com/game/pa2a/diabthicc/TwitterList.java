@@ -56,23 +56,17 @@ public class TwitterList extends AppCompatActivity {
     public void switchTimeLine() {
         final CustomTweetTimeLineAdapter adapter;
         if (isHashTag) {
-            final SearchTimeline searchTimeline = new SearchTimeline.Builder()
-                    .query("#DiabThiccMeal")
-                    .maxItemsPerRequest(50)
-                    .build();
+            UserTimeline userTimeline = new UserTimeline.Builder().screenName("DiabThicc").build();
 
             adapter = new CustomTweetTimeLineAdapter(this,
-                    searchTimeline,
+                    userTimeline,
                     R.style.tw__TweetLightWithActionsStyle,
                     null);
         } else {
-            final SearchTimeline searchTimeline = new SearchTimeline.Builder()
-                    .query("#DiabThiccUser")
-                    .maxItemsPerRequest(50)
-                    .build();
+            UserTimeline userTimeline = new UserTimeline.Builder().screenName("DiabThicc").build();
 
             adapter = new CustomTweetTimeLineAdapter(this,
-                    searchTimeline,
+                    userTimeline,
                     R.style.tw__TweetLightWithActionsStyle,
                     null);
         }
